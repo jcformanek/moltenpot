@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_coins_C2.yaml — "Hair Trigger"
+# =============================================================================
+# Split C2: train on lenient (high-threshold) reciprocators; test on harsh (low-threshold) reciprocators.
+#
+# Train : {coins_1, coins_3}
+#  Test : {coins_2, coins_4}
+#
+# Hypothesis: agents trained on lenient (high-threshold) reciprocators learn that
+# occasional defection is safe. Harsh, low-threshold reciprocators punish immediately,
+# turning this tolerance into a fatal assumption.
+# =============================================================================
+
+
+substrate:  coins
+data_root:  data/coins
+train_mode: C2
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coins_1
+  - coins_3
+
+out_dist_scenarios:
+  - coins_2
+  - coins_4
+
+model:
+  num_actions: 7
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: coins_C2

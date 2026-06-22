@@ -1,0 +1,27 @@
+# =============================================================================
+# Setting 2 — multi-scenario offline RL (commons_harvest)
+# =============================================================================
+# Train each algorithm on the union of commons_harvest scenarios.
+# 1 experiment x 4 algorithms x 3 seeds = 12 runs.
+# =============================================================================
+
+name: moltenpot-setting2-commons_harvest
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_commons_ALL
+  - ${args_no_hyphens}

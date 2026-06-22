@@ -1,0 +1,36 @@
+# @package _global_
+# =============================================================================
+# benchmark_clean_U2.yaml — "Quid Pro Quo"
+# =============================================================================
+# U2: train on fixed/corrigible bots; test on threshold reciprocators.
+#
+# Train : {clean_up_0, clean_up_2, clean_up_3, clean_up_15}
+#  Test : {clean_up_4, clean_up_5, clean_up_7}
+# =============================================================================
+
+
+substrate:  clean_up
+data_root:  data/clean_up
+train_mode: U2
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - clean_up_0
+  - clean_up_2
+  - clean_up_3
+  - clean_up_15
+
+out_dist_scenarios:
+  - clean_up_4
+  - clean_up_5
+  - clean_up_7
+
+model:
+  num_actions: 9
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: clean_up_U2

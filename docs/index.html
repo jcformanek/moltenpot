@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Molten Pot — Scenario Browser</title>
+<meta name="description" content="Per-scenario rollouts, return distributions, and offline-RL results for the Molten Pot benchmark." />
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+<header>
+  <nav class="topnav">
+    <a href="index.html" aria-current="page">Scenarios</a>
+    <a href="splits.html" class="topnav-cta">
+      Setting 3 splits <span class="topnav-cta-arrow">→</span>
+    </a>
+  </nav>
+  <h1>Molten Pot <span class="muted">— Scenario Browser</span></h1>
+  <p class="tagline">
+    Browse the 47 mixed-motive scenarios that comprise the Molten Pot
+    offline RL benchmark. For each scenario: a recording from the
+    start of independent-PPO training, a recording from the end, the
+    distribution of episode returns logged across training, and the
+    offline-RL evaluation results in Settings 1 and 2.
+  </p>
+  <a class="cta-banner" href="splits.html">
+    <span class="cta-banner-emoji">🔀</span>
+    <span class="cta-banner-body">
+      <strong>Also explore the Setting 3 splits</strong>
+      — see Train → Test mosaics for all 18 zero-shot generalisation
+      partitions, each with its own per-algorithm result plot.
+    </span>
+    <span class="cta-banner-arrow" aria-hidden="true">→</span>
+  </a>
+</header>
+
+<main id="app" data-state="loading">
+  <aside id="sidebar" aria-label="Substrate &amp; scenario navigation">
+    <nav id="nav"></nav>
+  </aside>
+
+  <section id="viewer">
+    <div id="viewer-empty" class="placeholder">
+      <p>Select a scenario from the left to begin.</p>
+    </div>
+
+    <div id="viewer-content" hidden>
+      <div class="scenario-head">
+        <h2 id="scen-title"></h2>
+        <code id="scen-id" class="muted"></code>
+      </div>
+
+      <div class="grid">
+        <figure class="panel">
+          <figcaption>Start of training</figcaption>
+          <img id="scen-early" alt="Early-training rollout" />
+        </figure>
+        <figure class="panel">
+          <figcaption>End of training</figcaption>
+          <img id="scen-late" alt="End-of-training rollout" />
+        </figure>
+        <figure class="panel">
+          <figcaption>
+            Episode-return distribution across training
+            <span class="caption-sub">Red dashed: mean. Green dashed: 90th percentile.</span>
+          </figcaption>
+          <img id="scen-hist" alt="Per-scenario return histogram" />
+        </figure>
+        <figure class="panel">
+          <figcaption>
+            Setting 1 vs Setting 2 — final eval return
+            <span class="caption-sub">Filled circle: Setting 1 (single-scenario). Filled square: Setting 2 (multi-scenario, label withheld). Marker = mean across seeds; error bar = SE. Reference lines mark dataset $p_{90}$ (green dashed), dataset mean (red dashed), and random policy (grey dotted).</span>
+          </figcaption>
+          <img id="scen-cmp" alt="Setting 1 vs Setting 2 per-scenario performance" />
+        </figure>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>
+    Companion site to the paper
+    <em>Molten Pot: Evaluations &amp; Datasets for Social Offline
+    Reinforcement Learning</em>.
+    Source code:
+    <a href="https://github.com/jcformanek/moltenpot">github.com/jcformanek/moltenpot</a>
+    · Datasets:
+    <a href="https://huggingface.co/datasets/jcformanek/moltenpot">huggingface.co/datasets/jcformanek/moltenpot</a>.
+  </p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_clean_U1.yaml — "Terms and Conditions"
+# =============================================================================
+# U1: train on fixed-behavior bots; test on corrigible bots that respond
+#     to being zapped.
+#
+# Train : {clean_up_0, clean_up_2, clean_up_3, clean_up_7}
+#  Test : {clean_up_13, clean_up_14, clean_up_15}
+# =============================================================================
+
+
+substrate:  clean_up
+data_root:  data/clean_up
+train_mode: U1
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - clean_up_0
+  - clean_up_2
+  - clean_up_3
+  - clean_up_7
+
+out_dist_scenarios:
+  - clean_up_13
+  - clean_up_14
+  - clean_up_15
+
+model:
+  num_actions: 9
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: clean_up_U1

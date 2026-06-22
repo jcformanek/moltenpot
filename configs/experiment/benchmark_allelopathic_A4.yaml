@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_allelopathic_A4.yaml — "From Follower to Leader"
+# =============================================================================
+# A4: train as visitor/minority; test as resident majority that must set
+#     the convention (12–14 focal agents).
+#
+# Train : {open_0, open_1}
+#  Test : {open_2, open_9, open_10, open_11, open_12}
+# =============================================================================
+
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: A4
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - allelopathic_harvest__open_0
+  - allelopathic_harvest__open_1
+
+out_dist_scenarios:
+  - allelopathic_harvest__open_2
+  - allelopathic_harvest__open_9
+  - allelopathic_harvest__open_10
+  - allelopathic_harvest__open_11
+  - allelopathic_harvest__open_12
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+num_eval_workers: 5
+
+wandb:
+  group: allelopathic_A4

@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_coop_mining_M2.yaml — "Signal in the Noise"
+# =============================================================================
+# Split M2: train on homogeneous populations; test on mixed/generalist scenarios.
+#
+# Train : {coop_mining_0, coop_mining_2}
+#  Test : {coop_mining_5}
+#
+# Hypothesis: both training scenarios are homogeneous — every background
+# agent behaves the same way within an episode. Test scenarios require
+# individual-level partner discrimination (tracking specific agents' history),
+# a skill absent from homogeneous training data.
+# =============================================================================
+
+
+substrate:  coop_mining
+data_root:  data/coop_mining
+train_mode: M2
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coop_mining_0
+  - coop_mining_2
+
+out_dist_scenarios:
+  - coop_mining_5
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: coop_mining_M2

@@ -1,0 +1,38 @@
+# @package _global_
+# =============================================================================
+# benchmark_coop_mining_M3.yaml — "Scarcity of Trust"
+# =============================================================================
+# Split M3: train on abundant/flexible visitor scenarios; test on competitive
+#           resident scenarios where access itself is the bottleneck.
+#
+# Train : {coop_mining_0, coop_mining_5}
+#  Test : {coop_mining_3}
+#
+# Hypothesis: training covers visitor scenarios where forming trust is the
+# dominant challenge, with partners either plentiful, flexible, or mixed.
+# Test scenarios replace trust formation with zero-sum access competition:
+# five focal agents compete for a single cooperative visitor.
+# =============================================================================
+
+
+substrate:  coop_mining
+data_root:  data/coop_mining
+train_mode: M3
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coop_mining_0
+  - coop_mining_5
+
+out_dist_scenarios:
+  - coop_mining_3
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: coop_mining_M3

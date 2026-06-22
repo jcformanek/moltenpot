@@ -1,0 +1,40 @@
+# @package _global_
+# =============================================================================
+# benchmark_coop_mining_M1.yaml — "Home and Away"
+# =============================================================================
+# Split M1: train on all visitor scenarios; test on resident scenarios.
+#
+# Train : {coop_mining_0, coop_mining_1, coop_mining_2, coop_mining_5}
+#  Test : {coop_mining_3, coop_mining_4}
+#
+# Hypothesis: visitor training covers the full range of background populations
+# but only as a minority adapting to a pre-existing group. Resident scenarios
+# require coordinating among multiple focal agents competing for/against a
+# single visitor — a structurally orthogonal challenge.
+# =============================================================================
+
+
+substrate:  coop_mining
+data_root:  data/coop_mining
+train_mode: M1
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coop_mining_0
+  - coop_mining_1
+  - coop_mining_2
+  - coop_mining_5
+
+out_dist_scenarios:
+  - coop_mining_3
+  - coop_mining_4
+
+model:
+  num_actions: 8
+  max_agents:  8   # coop_mining resident scenarios have 5 focal agents
+
+num_eval_workers: 5
+
+wandb:
+  group: coop_mining_M1

@@ -1,0 +1,33 @@
+# @package _global_
+# =============================================================================
+# benchmark_clean_ALL.yaml — "Train on everything"
+# =============================================================================
+# ALL: train on every clean_up scenario; no held-out test set.
+# =============================================================================
+
+
+substrate:  clean_up
+data_root:  data/clean_up
+train_mode: ALL
+
+out_dist_eval: false
+
+in_dist_scenarios:
+  - clean_up_0
+  - clean_up_2
+  - clean_up_3
+  - clean_up_4
+  - clean_up_5
+  - clean_up_7
+  - clean_up_13
+  - clean_up_14
+  - clean_up_15
+
+out_dist_scenarios: []
+
+model:
+  num_actions: 9
+  max_agents:  8
+
+wandb:
+  group: clean_up_ALL

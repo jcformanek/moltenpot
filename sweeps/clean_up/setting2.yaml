@@ -1,0 +1,27 @@
+# =============================================================================
+# Setting 2 — multi-scenario offline RL (clean_up)
+# =============================================================================
+# Train each algorithm on the union of clean_up scenarios.
+# 1 experiment x 4 algorithms x 3 seeds = 12 runs.
+# =============================================================================
+
+name: moltenpot-setting2-clean_up
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_clean_ALL
+  - ${args_no_hyphens}

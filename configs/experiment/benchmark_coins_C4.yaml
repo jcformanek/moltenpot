@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_coins_C4.yaml — "Wild Card"
+# =============================================================================
+# Split C4: train on fixed-type partners; test on latent-type alternating opponent.
+#
+# Train : {coins_5, coins_6}
+#  Test : {coins_0}
+#
+# Hypothesis: coins_0 requires real-time within-episode type inference — the
+# agent must identify cooperator vs defector from early interactions and adapt.
+# Offline RL produces a fixed policy; this split tests whether behavioural
+# diversity in training is a substitute for explicit adaptation mechanisms.
+# =============================================================================
+
+
+substrate:  coins
+data_root:  data/coins
+train_mode: C4
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coins_5
+  - coins_6
+
+out_dist_scenarios:
+  - coins_0
+
+model:
+  num_actions: 7
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: coins_C4

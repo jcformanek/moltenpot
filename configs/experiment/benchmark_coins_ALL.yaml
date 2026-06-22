@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_coins_ALL.yaml — "Train on everything"
+# =============================================================================
+# ALL: train on every coins scenario — all datasets are present.
+#
+# Train : {coins_0, coins_1, coins_2, coins_3, coins_4, coins_5, coins_6}
+#  Test : —
+# =============================================================================
+
+
+substrate:  coins
+data_root:  data/coins
+train_mode: ALL
+
+out_dist_eval: false
+
+in_dist_scenarios:
+  - coins_0
+  - coins_1
+  - coins_2
+  - coins_3
+  - coins_4
+  - coins_5
+  - coins_6
+
+out_dist_scenarios: []
+
+model:
+  num_actions: 7
+  max_agents:  8
+
+num_eval_workers: 7
+eval_episodes:    4
+
+wandb:
+  group: coins_ALL

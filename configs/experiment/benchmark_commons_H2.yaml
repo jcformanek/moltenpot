@@ -1,0 +1,41 @@
+# @package _global_
+# =============================================================================
+# benchmark_commons_H2.yaml — "Majority Rules"
+# =============================================================================
+# H2: train as visitor/minority; test as resident/majority.
+#
+# Train : {closed_0, closed_2, partnership_0, partnership_2, partnership_4, partnership_5}
+#  Test : {closed_1, closed_3, open_0, open_1, partnership_1, partnership_3}
+# =============================================================================
+
+
+substrate:  commons_harvest
+data_root:  data/commons_harvest
+train_mode: H2
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - commons_harvest__closed_0
+  - commons_harvest__closed_2
+  - commons_harvest__partnership_0
+  - commons_harvest__partnership_2
+  - commons_harvest__partnership_4
+  - commons_harvest__partnership_5
+
+out_dist_scenarios:
+  - commons_harvest__closed_1
+  - commons_harvest__closed_3
+  - commons_harvest__open_0
+  - commons_harvest__open_1
+  - commons_harvest__partnership_1
+  - commons_harvest__partnership_3
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: commons_H2

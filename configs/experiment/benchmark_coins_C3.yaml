@@ -1,0 +1,38 @@
+# @package _global_
+# =============================================================================
+# benchmark_coins_C3.yaml — "Escalation Protocol"
+# =============================================================================
+# Split C3: train on both threshold levels but only normal punishment; test
+#           on strong-punishment (severe) reciprocators.
+#
+# Train : {coins_1, coins_2}
+#  Test : {coins_3, coins_4}
+#
+# Hypothesis: knowing *when* to cooperate (threshold) is distinct from knowing
+# *how badly* defection is punished. Test partners escalate punishment severity
+# beyond anything seen in training.
+# =============================================================================
+
+
+substrate:  coins
+data_root:  data/coins
+train_mode: C3
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coins_1
+  - coins_2
+
+out_dist_scenarios:
+  - coins_3
+  - coins_4
+
+model:
+  num_actions: 7
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: coins_C3

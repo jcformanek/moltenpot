@@ -1,0 +1,106 @@
+# =============================================================================
+# train_ppo.yaml — PPO Online Training Configuration
+# =============================================================================
+# Usage: python scripts/train_ppo.py [overrides]
+#
+# Key overrides:
+#   substrate=clean_up                 MeltingPot substrate name
+#   scenarios=clean_up_0,clean_up_1   comma-separated scenario list
+#   num_actors=16                      number of parallel rollout workers
+#   total_steps=50000000               total environment steps
+#   nowrite=true                       disable data recording (pure PPO)
+#   no_gpu=true                        force CPU mode
+#   wandb.run_name=my_run              custom W&B run name
+#
+# Output paths (auto-organised):
+#   data/<substrate>/<scenario>/dataset.hdf5
+#   recordings/<substrate>/<scenario>/
+#   checkpoints/<substrate>/<scenario>/
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Distributed collection
+# ---------------------------------------------------------------------------
+num_actors:    8
+total_steps:   10_000_000
+rollout_len:   128
+max_steps:     1000          # max steps per episode
+learner_batch: 64            # fragments accumulated before one PPO update
+log_interval:  10
+
+# Substrate and scenario(s) to run. The five benchmark substrates are:
+#   coins, coop_mining, clean_up, commons_harvest, allelopathic_harvest
+# Scenario keys follow <substrate>_<n> (e.g. clean_up_0, coins_3); see the
+# per-substrate scenario lists in sweeps/<substrate>/setting1.yaml.
+substrate: "clean_up"
+scenarios: "clean_up_0"
+
+no_gpu:  false
+nowrite: false
+
+# HDF5 output: data/<substrate>/<scenario>/dataset.hdf5
+output: "data/${substrate}/${scenarios}/dataset.hdf5"
+
+# Number of complete episodes to record, spaced uniformly across training.
+# With max_steps=1000: 1000 episodes × 1000 steps = ~1M recorded timesteps.
+# Recording interval = total_steps / target_episodes = 100M / 1000 = every 100K steps.
+target_episodes: 1000
+
+# ---------------------------------------------------------------------------
+# Weights & Biases
+# ---------------------------------------------------------------------------
+wandb:
+  enabled:  true
+  project:  "moltenpot-ppo"
+  run_name: null    # auto-generated from scenario if null
+
+# ---------------------------------------------------------------------------
+# Ray cluster
+# ---------------------------------------------------------------------------
+ray:
+  address:  null    # null = local; "auto" = connect to existing cluster
+  num_cpus: null
+  num_gpus: null
+
+# ---------------------------------------------------------------------------
+# PPO hyperparameters
+# ---------------------------------------------------------------------------
+ppo:
+  lr:              3e-4
+  clip_eps:        0.2
+  entropy_coef:    0.01
+  value_coef:      0.5
+  gamma:           0.99
+  gae_lambda:      0.95
+  max_grad_norm:   10.0
+  epochs:          2
+  num_minibatches: 4
+
+# ---------------------------------------------------------------------------
+# Model architecture
+# ---------------------------------------------------------------------------
+model:
+  num_actions:   9      # override for substrates with different action spaces
+  fc_units:      256
+  gru_hidden:    256
+  max_agents:    8      # one-hot agent-ID size; must be ≥ num focal agents in any scenario
+  use_agent_id:  true   # concatenate one-hot agent index to GRU input
+
+# ---------------------------------------------------------------------------
+# Video recording
+# ---------------------------------------------------------------------------
+recording:
+  enabled:   true
+  interval:  50        # PPO updates between recordings
+  directory: "recordings/${substrate}/${scenarios}"
+  fps:       3
+
+# ---------------------------------------------------------------------------
+# Hydra output directories
+# ---------------------------------------------------------------------------
+hydra:
+  run:
+    dir: outputs/ppo/${scenarios}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir:    outputs/sweeps/ppo/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}

@@ -1,0 +1,35 @@
+# @package _global_
+# =============================================================================
+# benchmark_commons_H1.yaml — "Paper Tigers"
+# =============================================================================
+# H1: train on pacifist-only scenarios; test on scenarios with zapping bots.
+#
+# Train : {closed_0, closed_1, open_1, partnership_4}
+#  Test : {open_0, partnership_5}
+# =============================================================================
+
+
+substrate:  commons_harvest
+data_root:  data/commons_harvest
+train_mode: H1
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - commons_harvest__closed_0
+  - commons_harvest__closed_1
+  - commons_harvest__open_1
+  - commons_harvest__partnership_4
+
+out_dist_scenarios:
+  - commons_harvest__open_0
+  - commons_harvest__partnership_5
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: commons_H1

@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_allelopathic_ALL.yaml — "Train on everything"
+# =============================================================================
+# ALL: train on every allelopathic_harvest scenario; no held-out test set.
+# =============================================================================
+
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: ALL
+
+out_dist_eval: false
+
+in_dist_scenarios:
+  - allelopathic_harvest__open_0
+  - allelopathic_harvest__open_1
+  - allelopathic_harvest__open_2
+  - allelopathic_harvest__open_3
+  - allelopathic_harvest__open_4
+  - allelopathic_harvest__open_5
+  - allelopathic_harvest__open_6
+  - allelopathic_harvest__open_7
+  - allelopathic_harvest__open_8
+  - allelopathic_harvest__open_9
+  - allelopathic_harvest__open_10
+  - allelopathic_harvest__open_11
+  - allelopathic_harvest__open_12
+
+out_dist_scenarios: []
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+wandb:
+  group: allelopathic_harvest_ALL

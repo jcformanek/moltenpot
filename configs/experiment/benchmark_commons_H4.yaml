@@ -1,0 +1,33 @@
+# @package _global_
+# =============================================================================
+# benchmark_commons_H4.yaml — "Good Faith, Bad Outcome"
+# =============================================================================
+# H4: train on prosocial partners; test on guarded/armed partners.
+#
+# Train : {partnership_0, partnership_1}
+#  Test : {partnership_2, partnership_3}
+# =============================================================================
+
+
+substrate:  commons_harvest
+data_root:  data/commons_harvest
+train_mode: H4
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - commons_harvest__partnership_0
+  - commons_harvest__partnership_1
+
+out_dist_scenarios:
+  - commons_harvest__partnership_2
+  - commons_harvest__partnership_3
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: commons_H4

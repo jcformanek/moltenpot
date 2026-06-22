@@ -1,0 +1,38 @@
+# @package _global_
+# =============================================================================
+# benchmark_coop_mining_ALL.yaml — "Train on everything"
+# =============================================================================
+# ALL: train on every coop_mining scenario — all datasets are present, no
+#      held-out scenarios for this substrate.
+#
+# Train : {coop_mining_0, coop_mining_1, coop_mining_2,
+#          coop_mining_3, coop_mining_4, coop_mining_5}
+#  Test : —
+# =============================================================================
+
+
+substrate:  coop_mining
+data_root:  data/coop_mining
+train_mode: ALL
+
+out_dist_eval: false
+
+in_dist_scenarios:
+  - coop_mining_0
+  - coop_mining_1
+  - coop_mining_2
+  - coop_mining_3
+  - coop_mining_4
+  - coop_mining_5
+
+out_dist_scenarios: []
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+num_eval_workers: 6
+eval_episodes:    4
+
+wandb:
+  group: coop_mining_ALL

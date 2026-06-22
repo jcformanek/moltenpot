@@ -1,0 +1,28 @@
+# =============================================================================
+# algorithm/iql.yaml — Implicit Q-Learning hyperparameters
+# =============================================================================
+# Usage: python scripts/train_offline.py algorithm=iql ...
+# Key hyperparameters: iql_tau (expectile level), beta (advantage weighting)
+
+name: iql
+
+# Separate learning rates for V, Q, and actor
+v_lr:     3e-4
+q_lr:     3e-4
+actor_lr: 3e-4
+
+# RL discount
+gamma: 0.99
+
+# Soft target update rate
+tau: 0.005
+
+# Expectile level for value regression
+# τ > 0.5 → optimistic upper-quantile estimate of Q
+# τ = 0.7 is the original paper default
+iql_tau: 0.7
+
+# Advantage weighting temperature
+# Higher β → greedier extraction (closer to Q-learning)
+# Lower  β → closer to behaviour cloning
+beta: 3.0

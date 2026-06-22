@@ -1,0 +1,36 @@
+# @package _global_
+# =============================================================================
+# benchmark_commons_ALL.yaml — "Train on everything"
+# =============================================================================
+# ALL: train on every commons_harvest scenario; no held-out test set.
+# =============================================================================
+
+
+substrate:  commons_harvest
+data_root:  data/commons_harvest
+train_mode: ALL
+
+out_dist_eval: false
+
+in_dist_scenarios:
+  - commons_harvest__closed_0
+  - commons_harvest__closed_1
+  - commons_harvest__closed_2
+  - commons_harvest__closed_3
+  - commons_harvest__open_0
+  - commons_harvest__open_1
+  - commons_harvest__partnership_0
+  - commons_harvest__partnership_1
+  - commons_harvest__partnership_2
+  - commons_harvest__partnership_3
+  - commons_harvest__partnership_4
+  - commons_harvest__partnership_5
+
+out_dist_scenarios: []
+
+model:
+  num_actions: 8
+  max_agents:  8
+
+wandb:
+  group: commons_harvest_ALL

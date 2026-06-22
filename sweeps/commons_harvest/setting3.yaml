@@ -1,0 +1,34 @@
+# =============================================================================
+# Setting 3 — zero-shot social generalisation (commons_harvest)
+# =============================================================================
+# For each split, train on the train-side scenarios and evaluate zero-shot on
+# the test-side ones. 4 splits x 4 algorithms x 3 seeds = 48 runs.
+# =============================================================================
+
+name: moltenpot-setting3-commons_harvest
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: out_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  experiment:
+    values:
+      - benchmark_commons_H1
+      - benchmark_commons_H2
+      - benchmark_commons_H3
+      - benchmark_commons_H4
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=${experiment}
+  - algorithm=${algorithm}
+  - seed=${seed}

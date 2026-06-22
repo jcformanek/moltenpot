@@ -1,0 +1,39 @@
+# =============================================================================
+# Setting 1 — single-scenario offline RL (coop_mining)
+# =============================================================================
+# Train each algorithm on each scenario independently.
+# 6 scenarios x 4 algorithms x 3 seeds = 72 runs.
+# =============================================================================
+
+name: moltenpot-setting1-coop_mining
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  train_mode:
+    values:
+      - coop_mining_0
+      - coop_mining_1
+      - coop_mining_2
+      - coop_mining_3
+      - coop_mining_4
+      - coop_mining_5
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=sweep_setting1
+  - substrate=coop_mining
+  - data_root=data/coop_mining
+  - model.num_actions=8
+  - model.max_agents=8
+  - ${args_no_hyphens}

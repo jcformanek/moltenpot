@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use Molten Pot, please cite the accompanying paper."
+title: "Molten Pot: Evaluations & Datasets for Social Offline Reinforcement Learning"
+authors:
+  - family-names: "Formanek"
+    given-names: "Juan Claude"
+  - family-names: "Hedman"
+    given-names: "Marcel"
+  - family-names: "Tessera"
+    given-names: "Kale-ab"
+  - family-names: "Holmes"
+    given-names: "Christopher C."
+  - family-names: "Shock"
+    given-names: "Jonathan P."
+repository-code: "https://github.com/jcformanek/moltenpot"
+url: "https://jcformanek.github.io/moltenpot/"
+license: MIT
+preferred-citation:
+  type: conference-paper
+  title: "Molten Pot: Evaluations & Datasets for Social Offline Reinforcement Learning"
+  authors:
+    - family-names: "Formanek"
+      given-names: "Juan Claude"
+    - family-names: "Hedman"
+      given-names: "Marcel"
+    - family-names: "Tessera"
+      given-names: "Kale-ab"
+    - family-names: "Holmes"
+      given-names: "Christopher C."
+    - family-names: "Shock"
+      given-names: "Jonathan P."
+  collection-title: "Decision-Making from Offline Datasets to Online Adaptation: Black-Box Optimization to Reinforcement Learning (DEMO), ICML 2026 Workshop"
+  url: "https://openreview.net/forum?id=0NYZ3Hkamd"
+  year: 2026

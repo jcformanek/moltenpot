@@ -1,0 +1,36 @@
+# @package _global_
+# =============================================================================
+# benchmark_clean_U3.yaml — "Home Turf"
+# =============================================================================
+# U3: train as visitor minority; test as resident majority.
+#
+# Train : {clean_up_0, clean_up_2, clean_up_3, clean_up_7, clean_up_13}
+#  Test : {clean_up_4, clean_up_5}
+# =============================================================================
+
+
+substrate:  clean_up
+data_root:  data/clean_up
+train_mode: U3
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - clean_up_0
+  - clean_up_2
+  - clean_up_3
+  - clean_up_7
+  - clean_up_13
+
+out_dist_scenarios:
+  - clean_up_4
+  - clean_up_5
+
+model:
+  num_actions: 9
+  max_agents:  8
+
+num_eval_workers: 5
+
+wandb:
+  group: clean_up_U3

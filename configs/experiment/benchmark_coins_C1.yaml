@@ -1,0 +1,41 @@
+# @package _global_
+# =============================================================================
+# benchmark_coins_C1.yaml — "The Kindness Trap"
+# =============================================================================
+# Split C1: train on non-contingent partners; test on all reciprocators.
+#
+# Train : {coins_0, coins_5, coins_6}
+#  Test : {coins_1, coins_2, coins_3, coins_4}
+#
+# Hypothesis: training data contains no contingency signal — the partner's
+# behaviour is independent of the focal agent's actions in all three scenarios.
+# Reciprocators in the test set punish defection, shattering this assumption.
+# =============================================================================
+
+
+substrate:  coins
+data_root:  data/coins
+train_mode: C1
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - coins_0
+  - coins_5
+  - coins_6
+
+out_dist_scenarios:
+  - coins_1
+  - coins_2
+  - coins_3
+  - coins_4
+
+model:
+  num_actions: 7
+  max_agents:  8   # keeps embedding compatible with clean_up checkpoints
+
+# 4–6 CPUs available for eval workers; 5 leaves headroom for the OS + training process
+num_eval_workers: 5
+
+wandb:
+  group: coins_C1

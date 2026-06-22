@@ -1,0 +1,33 @@
+# =============================================================================
+# Setting 3 — zero-shot social generalisation (coop_mining)
+# =============================================================================
+# For each split, train on the train-side scenarios and evaluate zero-shot on
+# the test-side ones. 3 splits x 4 algorithms x 3 seeds = 36 runs.
+# =============================================================================
+
+name: moltenpot-setting3-coop_mining
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: out_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  experiment:
+    values:
+      - benchmark_coop_mining_M1
+      - benchmark_coop_mining_M2
+      - benchmark_coop_mining_M3
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=${experiment}
+  - algorithm=${algorithm}
+  - seed=${seed}

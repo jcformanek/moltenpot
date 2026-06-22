@@ -1,0 +1,40 @@
+# =============================================================================
+# Setting 1 — single-scenario offline RL (coins)
+# =============================================================================
+# Train each algorithm on each scenario independently.
+# 7 scenarios x 4 algorithms x 3 seeds = 84 runs.
+# =============================================================================
+
+name: moltenpot-setting1-coins
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  train_mode:
+    values:
+      - coins_0
+      - coins_1
+      - coins_2
+      - coins_3
+      - coins_4
+      - coins_5
+      - coins_6
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=sweep_setting1
+  - substrate=coins
+  - data_root=data/coins
+  - model.num_actions=7
+  - model.max_agents=8
+  - ${args_no_hyphens}

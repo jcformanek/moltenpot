@@ -1,0 +1,90 @@
+# =============================================================================
+# Moltenpot .gitignore
+# =============================================================================
+
+# Virtual environments
+.venv_311/
+.venv/
+venv/
+
+# MeltingPot source (large external dependency — install separately)
+meltingpot_src/
+
+# NeurIPS paper — separate git repo (git@github.com:jcformanek/moltenpot-paper.git)
+# cloned into paper/ for side-by-side editing; never tracked by the code repo
+paper/
+
+# Local-only stash of development scripts not needed to reproduce paper runs
+backup_scripts/
+
+finetune_backup/
+
+# Datasets — data/<substrate>/<scenario>/
+data/
+*.hdf5
+*.h5
+
+# HuggingFace dataset repo (optional local clone of the HF dataset repo)
+hf_repo/
+
+# Checkpoints — checkpoints/<algorithm>/<substrate>/<scenario>/seed_<N>/
+checkpoints/
+checkpoints_*/
+*.pth
+*.pt
+*.ckpt
+
+# Recordings — recordings/<substrate>/<scenario>/
+recordings/
+*.mp4
+*.avi
+
+# Hydra run outputs
+outputs/
+multirun/
+
+# Weights & Biases
+wandb/
+
+# Logs and plots
+logs/
+plots/
+dataset_analysis/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment / secrets — never commit
+.env
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+# ...except the published quickstart walkthrough
+!notebooks/tiny_demo_walkthrough.ipynb

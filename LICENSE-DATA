@@ -1,0 +1,16 @@
+Molten Pot datasets — License
+==============================
+
+The source code in this repository is released under the MIT License (see
+LICENSE). The accompanying datasets — the focal-agent trajectories hosted on
+the Hugging Face Hub at https://huggingface.co/datasets/jcformanek/moltenpot —
+are released separately under the
+
+    Creative Commons Attribution 4.0 International License (CC-BY-4.0)
+
+You are free to share and adapt the data for any purpose, including
+commercially, provided you give appropriate credit by citing the accompanying
+paper (see the repository README) and indicate if changes were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+Summary:           https://creativecommons.org/licenses/by/4.0/

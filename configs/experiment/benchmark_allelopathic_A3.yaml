@@ -1,0 +1,39 @@
+# @package _global_
+# =============================================================================
+# benchmark_allelopathic_A3.yaml — "Small World"
+# =============================================================================
+# A3: train at population size 16 (8+8); test at smaller populations (4–10).
+#
+# Train : {open_3, open_4, open_5, open_11, open_12}
+#  Test : {open_6, open_7, open_8, open_9, open_10}
+# =============================================================================
+
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: A3
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - allelopathic_harvest__open_3
+  - allelopathic_harvest__open_4
+  - allelopathic_harvest__open_5
+  - allelopathic_harvest__open_11
+  - allelopathic_harvest__open_12
+
+out_dist_scenarios:
+  - allelopathic_harvest__open_6
+  - allelopathic_harvest__open_7
+  - allelopathic_harvest__open_8
+  - allelopathic_harvest__open_9
+  - allelopathic_harvest__open_10
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+num_eval_workers: 5
+
+wandb:
+  group: allelopathic_A3

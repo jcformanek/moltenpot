@@ -1,0 +1,45 @@
+# =============================================================================
+# Setting 1 — single-scenario offline RL (commons_harvest)
+# =============================================================================
+# Train each algorithm on each scenario independently.
+# 12 scenarios x 4 algorithms x 3 seeds = 144 runs.
+# =============================================================================
+
+name: moltenpot-setting1-commons_harvest
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  train_mode:
+    values:
+      - commons_harvest__closed_0
+      - commons_harvest__closed_1
+      - commons_harvest__closed_2
+      - commons_harvest__closed_3
+      - commons_harvest__open_0
+      - commons_harvest__open_1
+      - commons_harvest__partnership_0
+      - commons_harvest__partnership_1
+      - commons_harvest__partnership_2
+      - commons_harvest__partnership_3
+      - commons_harvest__partnership_4
+      - commons_harvest__partnership_5
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=sweep_setting1
+  - substrate=commons_harvest
+  - data_root=data/commons_harvest
+  - model.num_actions=8
+  - model.max_agents=8
+  - ${args_no_hyphens}

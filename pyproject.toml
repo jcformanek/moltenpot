@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moltenpot"
+version = "0.1.0"
+description = "Offline RL benchmark for MeltingPot mixed-motive multi-agent scenarios"
+readme = "README.md"
+requires-python = "==3.11.*"
+license = { text = "MIT" }
+authors = [
+    { name = "Juan Claude Formanek" },
+    { name = "Marcel Hedman" },
+    { name = "Kale-ab Tessera" },
+    { name = "Christopher C. Holmes" },
+    { name = "Jonathan P. Shock" },
+]
+keywords = [
+    "offline-reinforcement-learning",
+    "multi-agent-reinforcement-learning",
+    "meltingpot",
+    "benchmark",
+    "social-dilemmas",
+    "mixed-motive",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Operating System :: POSIX :: Linux",
+]
+# The default torch wheel here is CPU-friendly. For GPU support, install a
+# CUDA-matching torch wheel separately from the PyTorch index — see README.md.
+dependencies = [
+    "torch>=2.2.0",
+    "torchvision>=0.17.0",
+    "ray[default]>=2.9.0",
+    "h5py>=3.10.0",
+    "numpy>=1.26.0",
+    "dm-env>=1.6",
+    "opencv-python-headless>=4.9.0",
+    "hydra-core>=1.3.0",
+    "omegaconf>=2.3.0",
+    "wandb>=0.16.0",
+    "huggingface_hub>=0.23.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-mock>=3.12.0",
+    "ruff>=0.4.0",
+]
+
+[project.urls]
+Homepage = "https://jcformanek.github.io/moltenpot/"
+Repository = "https://github.com/jcformanek/moltenpot"
+Dataset = "https://huggingface.co/datasets/jcformanek/moltenpot"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["moltenpot*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100

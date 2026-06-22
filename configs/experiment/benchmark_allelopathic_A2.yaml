@@ -1,0 +1,40 @@
+# @package _global_
+# =============================================================================
+# benchmark_allelopathic_A2.yaml — "The Bandwagon Effect"
+# =============================================================================
+# A2: train on pure convention-followers; test on mixed visitors that also
+#     carry their own colour preference (visitor and resident-majority mixes).
+#
+# Train : {open_3, open_7, open_8, open_9, open_10, open_11}
+#  Test : {open_4, open_5, open_6, open_12}
+# =============================================================================
+
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: A2
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - allelopathic_harvest__open_3
+  - allelopathic_harvest__open_7
+  - allelopathic_harvest__open_8
+  - allelopathic_harvest__open_9
+  - allelopathic_harvest__open_10
+  - allelopathic_harvest__open_11
+
+out_dist_scenarios:
+  - allelopathic_harvest__open_4
+  - allelopathic_harvest__open_5
+  - allelopathic_harvest__open_6
+  - allelopathic_harvest__open_12
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+num_eval_workers: 5
+
+wandb:
+  group: allelopathic_A2

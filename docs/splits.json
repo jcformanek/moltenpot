@@ -1,0 +1,314 @@
+{
+  "substrates": [
+    {
+      "id": "coins",
+      "label": "Coins",
+      "splits": [
+        {
+          "id": "C1",
+          "summary": "Unconditional types \u2192 reciprocators",
+          "train": [
+            "coins_0",
+            "coins_5",
+            "coins_6"
+          ],
+          "test": [
+            "coins_1",
+            "coins_2",
+            "coins_3",
+            "coins_4"
+          ],
+          "result": "assets/tier3_per_split/coins/C1.png"
+        },
+        {
+          "id": "C2",
+          "summary": "Lenient \u2192 harsh reciprocity threshold",
+          "train": [
+            "coins_1",
+            "coins_3"
+          ],
+          "test": [
+            "coins_2",
+            "coins_4"
+          ],
+          "result": "assets/tier3_per_split/coins/C2.png"
+        },
+        {
+          "id": "C3",
+          "summary": "Pure reciprocity \u2192 reciprocity + punishment",
+          "train": [
+            "coins_1",
+            "coins_2"
+          ],
+          "test": [
+            "coins_3",
+            "coins_4"
+          ],
+          "result": "assets/tier3_per_split/coins/C3.png"
+        },
+        {
+          "id": "C4",
+          "summary": "Homogeneous partners \u2192 latent type",
+          "train": [
+            "coins_5",
+            "coins_6"
+          ],
+          "test": [
+            "coins_0"
+          ],
+          "result": "assets/tier3_per_split/coins/C4.png"
+        }
+      ]
+    },
+    {
+      "id": "coop_mining",
+      "label": "Coop Mining",
+      "splits": [
+        {
+          "id": "M1",
+          "summary": "Visitor mode \u2192 resident mode",
+          "train": [
+            "coop_mining_0",
+            "coop_mining_1",
+            "coop_mining_2",
+            "coop_mining_5"
+          ],
+          "test": [
+            "coop_mining_3",
+            "coop_mining_4"
+          ],
+          "result": "assets/tier3_per_split/coop_mining/M1.png"
+        },
+        {
+          "id": "M2",
+          "summary": "Homogeneous partners \u2192 mixed populations",
+          "train": [
+            "coop_mining_0",
+            "coop_mining_2"
+          ],
+          "test": [
+            "coop_mining_5"
+          ],
+          "result": "assets/tier3_per_split/coop_mining/M2.png"
+        },
+        {
+          "id": "M3",
+          "summary": "Visitor cooperation \u2192 resident competition",
+          "train": [
+            "coop_mining_0",
+            "coop_mining_5"
+          ],
+          "test": [
+            "coop_mining_3"
+          ],
+          "result": "assets/tier3_per_split/coop_mining/M3.png"
+        }
+      ]
+    },
+    {
+      "id": "clean_up",
+      "label": "Clean Up",
+      "splits": [
+        {
+          "id": "U1",
+          "summary": "Pro / structured partners \u2192 free-riders",
+          "train": [
+            "clean_up_0",
+            "clean_up_2",
+            "clean_up_3",
+            "clean_up_7"
+          ],
+          "test": [
+            "clean_up_13",
+            "clean_up_14",
+            "clean_up_15"
+          ],
+          "result": "assets/tier3_per_split/clean_up/U1.png"
+        },
+        {
+          "id": "U2",
+          "summary": "Lenient reciprocity \u2192 suspicious reciprocity",
+          "train": [
+            "clean_up_0",
+            "clean_up_2",
+            "clean_up_3",
+            "clean_up_15"
+          ],
+          "test": [
+            "clean_up_4",
+            "clean_up_5",
+            "clean_up_7"
+          ],
+          "result": "assets/tier3_per_split/clean_up/U2.png"
+        },
+        {
+          "id": "U3",
+          "summary": "Reciprocity \u2192 corrigibility",
+          "train": [
+            "clean_up_0",
+            "clean_up_2",
+            "clean_up_3",
+            "clean_up_7",
+            "clean_up_13"
+          ],
+          "test": [
+            "clean_up_4",
+            "clean_up_5"
+          ],
+          "result": "assets/tier3_per_split/clean_up/U3.png"
+        }
+      ]
+    },
+    {
+      "id": "commons_harvest",
+      "label": "Commons Harvest",
+      "splits": [
+        {
+          "id": "H1",
+          "summary": "Passive \u2192 sanctioning unsustainable counterparts",
+          "train": [
+            "commons_harvest__closed_0",
+            "commons_harvest__closed_1",
+            "commons_harvest__open_1",
+            "commons_harvest__partnership_4"
+          ],
+          "test": [
+            "commons_harvest__open_0",
+            "commons_harvest__partnership_5"
+          ],
+          "result": "assets/tier3_per_split/commons_harvest/H1.png"
+        },
+        {
+          "id": "H2",
+          "summary": "Visitor \u2192 resident governance",
+          "train": [
+            "commons_harvest__closed_0",
+            "commons_harvest__closed_2",
+            "commons_harvest__partnership_0",
+            "commons_harvest__partnership_2",
+            "commons_harvest__partnership_4",
+            "commons_harvest__partnership_5"
+          ],
+          "test": [
+            "commons_harvest__closed_1",
+            "commons_harvest__closed_3",
+            "commons_harvest__open_0",
+            "commons_harvest__open_1",
+            "commons_harvest__partnership_1",
+            "commons_harvest__partnership_3"
+          ],
+          "result": "assets/tier3_per_split/commons_harvest/H2.png"
+        },
+        {
+          "id": "H3",
+          "summary": "Anonymous commons \u2192 dyadic partnership",
+          "train": [
+            "commons_harvest__closed_0",
+            "commons_harvest__closed_1",
+            "commons_harvest__closed_2",
+            "commons_harvest__closed_3",
+            "commons_harvest__open_0",
+            "commons_harvest__open_1"
+          ],
+          "test": [
+            "commons_harvest__partnership_0",
+            "commons_harvest__partnership_1",
+            "commons_harvest__partnership_2",
+            "commons_harvest__partnership_3"
+          ],
+          "result": "assets/tier3_per_split/commons_harvest/H3.png"
+        },
+        {
+          "id": "H4",
+          "summary": "Good partners \u2192 guarded / adversarial trust",
+          "train": [
+            "commons_harvest__partnership_0",
+            "commons_harvest__partnership_1"
+          ],
+          "test": [
+            "commons_harvest__partnership_2",
+            "commons_harvest__partnership_3"
+          ],
+          "result": "assets/tier3_per_split/commons_harvest/H4.png"
+        }
+      ]
+    },
+    {
+      "id": "allelopathic_harvest",
+      "label": "Allelopathic Harvest",
+      "splits": [
+        {
+          "id": "A1",
+          "summary": "Aligned conventions \u2192 opposing conventions",
+          "train": [
+            "allelopathic_harvest__open_1",
+            "allelopathic_harvest__open_3",
+            "allelopathic_harvest__open_4",
+            "allelopathic_harvest__open_7",
+            "allelopathic_harvest__open_8"
+          ],
+          "test": [
+            "allelopathic_harvest__open_0",
+            "allelopathic_harvest__open_5",
+            "allelopathic_harvest__open_6"
+          ],
+          "result": "assets/tier3_per_split/allelopathic_harvest/A1.png"
+        },
+        {
+          "id": "A2",
+          "summary": "Pure followers \u2192 mixed visitors with own preferences",
+          "train": [
+            "allelopathic_harvest__open_3",
+            "allelopathic_harvest__open_7",
+            "allelopathic_harvest__open_8",
+            "allelopathic_harvest__open_9",
+            "allelopathic_harvest__open_10",
+            "allelopathic_harvest__open_11"
+          ],
+          "test": [
+            "allelopathic_harvest__open_4",
+            "allelopathic_harvest__open_5",
+            "allelopathic_harvest__open_6",
+            "allelopathic_harvest__open_12"
+          ],
+          "result": "assets/tier3_per_split/allelopathic_harvest/A2.png"
+        },
+        {
+          "id": "A3",
+          "summary": "Large populations \u2192 small populations",
+          "train": [
+            "allelopathic_harvest__open_3",
+            "allelopathic_harvest__open_4",
+            "allelopathic_harvest__open_5",
+            "allelopathic_harvest__open_11",
+            "allelopathic_harvest__open_12"
+          ],
+          "test": [
+            "allelopathic_harvest__open_6",
+            "allelopathic_harvest__open_7",
+            "allelopathic_harvest__open_8",
+            "allelopathic_harvest__open_9",
+            "allelopathic_harvest__open_10"
+          ],
+          "result": "assets/tier3_per_split/allelopathic_harvest/A3.png"
+        },
+        {
+          "id": "A4",
+          "summary": "Visiting an established convention \u2192 resident-majority",
+          "train": [
+            "allelopathic_harvest__open_0",
+            "allelopathic_harvest__open_1"
+          ],
+          "test": [
+            "allelopathic_harvest__open_2",
+            "allelopathic_harvest__open_9",
+            "allelopathic_harvest__open_10",
+            "allelopathic_harvest__open_11",
+            "allelopathic_harvest__open_12"
+          ],
+          "result": "assets/tier3_per_split/allelopathic_harvest/A4.png"
+        }
+      ]
+    }
+  ]
+}

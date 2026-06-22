@@ -1,0 +1,506 @@
+{
+  "substrates": [
+    {
+      "id": "clean_up",
+      "label": "Clean Up",
+      "scenarios": [
+        "clean_up_0",
+        "clean_up_2",
+        "clean_up_3",
+        "clean_up_4",
+        "clean_up_5",
+        "clean_up_7",
+        "clean_up_13",
+        "clean_up_14",
+        "clean_up_15"
+      ]
+    },
+    {
+      "id": "coins",
+      "label": "Coins",
+      "scenarios": [
+        "coins_0",
+        "coins_1",
+        "coins_2",
+        "coins_3",
+        "coins_4",
+        "coins_5",
+        "coins_6"
+      ]
+    },
+    {
+      "id": "coop_mining",
+      "label": "Coop Mining",
+      "scenarios": [
+        "coop_mining_0",
+        "coop_mining_1",
+        "coop_mining_2",
+        "coop_mining_3",
+        "coop_mining_4",
+        "coop_mining_5"
+      ]
+    },
+    {
+      "id": "commons_harvest",
+      "label": "Commons Harvest",
+      "scenarios": [
+        "commons_harvest__closed_0",
+        "commons_harvest__closed_1",
+        "commons_harvest__closed_2",
+        "commons_harvest__closed_3",
+        "commons_harvest__open_0",
+        "commons_harvest__open_1",
+        "commons_harvest__partnership_0",
+        "commons_harvest__partnership_1",
+        "commons_harvest__partnership_2",
+        "commons_harvest__partnership_3",
+        "commons_harvest__partnership_4",
+        "commons_harvest__partnership_5"
+      ]
+    },
+    {
+      "id": "allelopathic_harvest",
+      "label": "Allelopathic Harvest",
+      "scenarios": [
+        "allelopathic_harvest__open_0",
+        "allelopathic_harvest__open_1",
+        "allelopathic_harvest__open_2",
+        "allelopathic_harvest__open_3",
+        "allelopathic_harvest__open_4",
+        "allelopathic_harvest__open_5",
+        "allelopathic_harvest__open_6",
+        "allelopathic_harvest__open_7",
+        "allelopathic_harvest__open_8",
+        "allelopathic_harvest__open_9",
+        "allelopathic_harvest__open_10",
+        "allelopathic_harvest__open_11",
+        "allelopathic_harvest__open_12"
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "clean_up_0",
+      "substrate": "clean_up",
+      "label": "Scenario 0",
+      "early": "assets/clean_up/clean_up_0.early.gif",
+      "late": "assets/clean_up/clean_up_0.late.gif",
+      "histogram": "assets/clean_up/clean_up_0.histogram.png",
+      "comparison": "assets/clean_up/clean_up_0.comparison.png"
+    },
+    {
+      "id": "clean_up_2",
+      "substrate": "clean_up",
+      "label": "Scenario 2",
+      "early": "assets/clean_up/clean_up_2.early.gif",
+      "late": "assets/clean_up/clean_up_2.late.gif",
+      "histogram": "assets/clean_up/clean_up_2.histogram.png",
+      "comparison": "assets/clean_up/clean_up_2.comparison.png"
+    },
+    {
+      "id": "clean_up_3",
+      "substrate": "clean_up",
+      "label": "Scenario 3",
+      "early": "assets/clean_up/clean_up_3.early.gif",
+      "late": "assets/clean_up/clean_up_3.late.gif",
+      "histogram": "assets/clean_up/clean_up_3.histogram.png",
+      "comparison": "assets/clean_up/clean_up_3.comparison.png"
+    },
+    {
+      "id": "clean_up_4",
+      "substrate": "clean_up",
+      "label": "Scenario 4",
+      "early": "assets/clean_up/clean_up_4.early.gif",
+      "late": "assets/clean_up/clean_up_4.late.gif",
+      "histogram": "assets/clean_up/clean_up_4.histogram.png",
+      "comparison": "assets/clean_up/clean_up_4.comparison.png"
+    },
+    {
+      "id": "clean_up_5",
+      "substrate": "clean_up",
+      "label": "Scenario 5",
+      "early": "assets/clean_up/clean_up_5.early.gif",
+      "late": "assets/clean_up/clean_up_5.late.gif",
+      "histogram": "assets/clean_up/clean_up_5.histogram.png",
+      "comparison": "assets/clean_up/clean_up_5.comparison.png"
+    },
+    {
+      "id": "clean_up_7",
+      "substrate": "clean_up",
+      "label": "Scenario 7",
+      "early": "assets/clean_up/clean_up_7.early.gif",
+      "late": "assets/clean_up/clean_up_7.late.gif",
+      "histogram": "assets/clean_up/clean_up_7.histogram.png",
+      "comparison": "assets/clean_up/clean_up_7.comparison.png"
+    },
+    {
+      "id": "clean_up_13",
+      "substrate": "clean_up",
+      "label": "Scenario 13",
+      "early": "assets/clean_up/clean_up_13.early.gif",
+      "late": "assets/clean_up/clean_up_13.late.gif",
+      "histogram": "assets/clean_up/clean_up_13.histogram.png",
+      "comparison": "assets/clean_up/clean_up_13.comparison.png"
+    },
+    {
+      "id": "clean_up_14",
+      "substrate": "clean_up",
+      "label": "Scenario 14",
+      "early": "assets/clean_up/clean_up_14.early.gif",
+      "late": "assets/clean_up/clean_up_14.late.gif",
+      "histogram": "assets/clean_up/clean_up_14.histogram.png",
+      "comparison": "assets/clean_up/clean_up_14.comparison.png"
+    },
+    {
+      "id": "clean_up_15",
+      "substrate": "clean_up",
+      "label": "Scenario 15",
+      "early": "assets/clean_up/clean_up_15.early.gif",
+      "late": "assets/clean_up/clean_up_15.late.gif",
+      "histogram": "assets/clean_up/clean_up_15.histogram.png",
+      "comparison": "assets/clean_up/clean_up_15.comparison.png"
+    },
+    {
+      "id": "coins_0",
+      "substrate": "coins",
+      "label": "Scenario 0",
+      "early": "assets/coins/coins_0.early.gif",
+      "late": "assets/coins/coins_0.late.gif",
+      "histogram": "assets/coins/coins_0.histogram.png",
+      "comparison": "assets/coins/coins_0.comparison.png"
+    },
+    {
+      "id": "coins_1",
+      "substrate": "coins",
+      "label": "Scenario 1",
+      "early": "assets/coins/coins_1.early.gif",
+      "late": "assets/coins/coins_1.late.gif",
+      "histogram": "assets/coins/coins_1.histogram.png",
+      "comparison": "assets/coins/coins_1.comparison.png"
+    },
+    {
+      "id": "coins_2",
+      "substrate": "coins",
+      "label": "Scenario 2",
+      "early": "assets/coins/coins_2.early.gif",
+      "late": "assets/coins/coins_2.late.gif",
+      "histogram": "assets/coins/coins_2.histogram.png",
+      "comparison": "assets/coins/coins_2.comparison.png"
+    },
+    {
+      "id": "coins_3",
+      "substrate": "coins",
+      "label": "Scenario 3",
+      "early": "assets/coins/coins_3.early.gif",
+      "late": "assets/coins/coins_3.late.gif",
+      "histogram": "assets/coins/coins_3.histogram.png",
+      "comparison": "assets/coins/coins_3.comparison.png"
+    },
+    {
+      "id": "coins_4",
+      "substrate": "coins",
+      "label": "Scenario 4",
+      "early": "assets/coins/coins_4.early.gif",
+      "late": "assets/coins/coins_4.late.gif",
+      "histogram": "assets/coins/coins_4.histogram.png",
+      "comparison": "assets/coins/coins_4.comparison.png"
+    },
+    {
+      "id": "coins_5",
+      "substrate": "coins",
+      "label": "Scenario 5",
+      "early": "assets/coins/coins_5.early.gif",
+      "late": "assets/coins/coins_5.late.gif",
+      "histogram": "assets/coins/coins_5.histogram.png",
+      "comparison": "assets/coins/coins_5.comparison.png"
+    },
+    {
+      "id": "coins_6",
+      "substrate": "coins",
+      "label": "Scenario 6",
+      "early": "assets/coins/coins_6.early.gif",
+      "late": "assets/coins/coins_6.late.gif",
+      "histogram": "assets/coins/coins_6.histogram.png",
+      "comparison": "assets/coins/coins_6.comparison.png"
+    },
+    {
+      "id": "coop_mining_0",
+      "substrate": "coop_mining",
+      "label": "Scenario 0",
+      "early": "assets/coop_mining/coop_mining_0.early.gif",
+      "late": "assets/coop_mining/coop_mining_0.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_0.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_0.comparison.png"
+    },
+    {
+      "id": "coop_mining_1",
+      "substrate": "coop_mining",
+      "label": "Scenario 1",
+      "early": "assets/coop_mining/coop_mining_1.early.gif",
+      "late": "assets/coop_mining/coop_mining_1.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_1.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_1.comparison.png"
+    },
+    {
+      "id": "coop_mining_2",
+      "substrate": "coop_mining",
+      "label": "Scenario 2",
+      "early": "assets/coop_mining/coop_mining_2.early.gif",
+      "late": "assets/coop_mining/coop_mining_2.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_2.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_2.comparison.png"
+    },
+    {
+      "id": "coop_mining_3",
+      "substrate": "coop_mining",
+      "label": "Scenario 3",
+      "early": "assets/coop_mining/coop_mining_3.early.gif",
+      "late": "assets/coop_mining/coop_mining_3.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_3.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_3.comparison.png"
+    },
+    {
+      "id": "coop_mining_4",
+      "substrate": "coop_mining",
+      "label": "Scenario 4",
+      "early": "assets/coop_mining/coop_mining_4.early.gif",
+      "late": "assets/coop_mining/coop_mining_4.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_4.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_4.comparison.png"
+    },
+    {
+      "id": "coop_mining_5",
+      "substrate": "coop_mining",
+      "label": "Scenario 5",
+      "early": "assets/coop_mining/coop_mining_5.early.gif",
+      "late": "assets/coop_mining/coop_mining_5.late.gif",
+      "histogram": "assets/coop_mining/coop_mining_5.histogram.png",
+      "comparison": "assets/coop_mining/coop_mining_5.comparison.png"
+    },
+    {
+      "id": "commons_harvest__closed_0",
+      "substrate": "commons_harvest",
+      "label": "Closed 0",
+      "early": "assets/commons_harvest/commons_harvest__closed_0.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__closed_0.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__closed_0.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__closed_0.comparison.png"
+    },
+    {
+      "id": "commons_harvest__closed_1",
+      "substrate": "commons_harvest",
+      "label": "Closed 1",
+      "early": "assets/commons_harvest/commons_harvest__closed_1.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__closed_1.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__closed_1.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__closed_1.comparison.png"
+    },
+    {
+      "id": "commons_harvest__closed_2",
+      "substrate": "commons_harvest",
+      "label": "Closed 2",
+      "early": "assets/commons_harvest/commons_harvest__closed_2.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__closed_2.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__closed_2.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__closed_2.comparison.png"
+    },
+    {
+      "id": "commons_harvest__closed_3",
+      "substrate": "commons_harvest",
+      "label": "Closed 3",
+      "early": "assets/commons_harvest/commons_harvest__closed_3.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__closed_3.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__closed_3.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__closed_3.comparison.png"
+    },
+    {
+      "id": "commons_harvest__open_0",
+      "substrate": "commons_harvest",
+      "label": "Open 0",
+      "early": "assets/commons_harvest/commons_harvest__open_0.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__open_0.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__open_0.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__open_0.comparison.png"
+    },
+    {
+      "id": "commons_harvest__open_1",
+      "substrate": "commons_harvest",
+      "label": "Open 1",
+      "early": "assets/commons_harvest/commons_harvest__open_1.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__open_1.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__open_1.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__open_1.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_0",
+      "substrate": "commons_harvest",
+      "label": "Partnership 0",
+      "early": "assets/commons_harvest/commons_harvest__partnership_0.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_0.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_0.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_0.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_1",
+      "substrate": "commons_harvest",
+      "label": "Partnership 1",
+      "early": "assets/commons_harvest/commons_harvest__partnership_1.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_1.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_1.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_1.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_2",
+      "substrate": "commons_harvest",
+      "label": "Partnership 2",
+      "early": "assets/commons_harvest/commons_harvest__partnership_2.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_2.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_2.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_2.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_3",
+      "substrate": "commons_harvest",
+      "label": "Partnership 3",
+      "early": "assets/commons_harvest/commons_harvest__partnership_3.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_3.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_3.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_3.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_4",
+      "substrate": "commons_harvest",
+      "label": "Partnership 4",
+      "early": "assets/commons_harvest/commons_harvest__partnership_4.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_4.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_4.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_4.comparison.png"
+    },
+    {
+      "id": "commons_harvest__partnership_5",
+      "substrate": "commons_harvest",
+      "label": "Partnership 5",
+      "early": "assets/commons_harvest/commons_harvest__partnership_5.early.gif",
+      "late": "assets/commons_harvest/commons_harvest__partnership_5.late.gif",
+      "histogram": "assets/commons_harvest/commons_harvest__partnership_5.histogram.png",
+      "comparison": "assets/commons_harvest/commons_harvest__partnership_5.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_0",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 0",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_0.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_0.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_0.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_0.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_1",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 1",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_1.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_1.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_1.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_1.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_2",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 2",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_2.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_2.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_2.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_2.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_3",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 3",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_3.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_3.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_3.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_3.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_4",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 4",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_4.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_4.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_4.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_4.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_5",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 5",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_5.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_5.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_5.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_5.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_6",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 6",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_6.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_6.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_6.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_6.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_7",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 7",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_7.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_7.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_7.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_7.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_8",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 8",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_8.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_8.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_8.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_8.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_9",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 9",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_9.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_9.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_9.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_9.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_10",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 10",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_10.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_10.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_10.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_10.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_11",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 11",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_11.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_11.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_11.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_11.comparison.png"
+    },
+    {
+      "id": "allelopathic_harvest__open_12",
+      "substrate": "allelopathic_harvest",
+      "label": "Scenario 12",
+      "early": "assets/allelopathic_harvest/allelopathic_harvest__open_12.early.gif",
+      "late": "assets/allelopathic_harvest/allelopathic_harvest__open_12.late.gif",
+      "histogram": "assets/allelopathic_harvest/allelopathic_harvest__open_12.histogram.png",
+      "comparison": "assets/allelopathic_harvest/allelopathic_harvest__open_12.comparison.png"
+    }
+  ]
+}

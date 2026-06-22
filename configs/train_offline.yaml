@@ -1,0 +1,114 @@
+# =============================================================================
+# train_offline.yaml — Offline RL Training Configuration
+# =============================================================================
+# Usage: python scripts/train_offline.py algorithm=<name> [overrides]
+#
+# Key overrides:
+#   algorithm=bc|bcq|iql|cql          select algorithm (required)
+#   data_root=data/clean_up            root dir containing per-scenario HDF5s
+#   substrate=clean_up                 substrate name (for checkpoint paths)
+#   seed=42                            random seed
+#   model.num_actions=9                set to match substrate
+#   out_dist_eval=false                disable OOD evaluation to save time
+#
+# Output paths (auto-organised):
+#   checkpoints/<substrate>/multi/seed_<seed>/<algorithm>/
+# =============================================================================
+
+defaults:
+  - algorithm: bc   # default algorithm; override with algorithm=iql etc.
+  - _self_
+
+# ---------------------------------------------------------------------------
+# Required
+# ---------------------------------------------------------------------------
+data_root: ???      # root directory containing <scenario>/dataset.hdf5 files
+substrate: ???      # e.g. clean_up — used to organise checkpoint paths
+train_mode: multi   # 'multi' = all in_dist_scenarios; 'single' = one scenario (override per run)
+
+# ---------------------------------------------------------------------------
+# In-distribution scenarios (training data)
+# ---------------------------------------------------------------------------
+in_dist_scenarios:
+  - clean_up_0
+  - clean_up_2
+  - clean_up_3
+  - clean_up_4
+  - clean_up_5
+  - clean_up_7
+  - clean_up_13
+  - clean_up_14
+  - clean_up_15
+
+# ---------------------------------------------------------------------------
+# Out-of-distribution scenarios (zero-shot evaluation only, no data used)
+# ---------------------------------------------------------------------------
+out_dist_eval: true   # set to false to skip OOD evaluation
+
+out_dist_scenarios:
+  - clean_up_1
+  - clean_up_6
+  - clean_up_8
+  - clean_up_9
+  - clean_up_10
+  - clean_up_11
+  - clean_up_12
+  - clean_up_16
+  - clean_up_17
+
+# ---------------------------------------------------------------------------
+# Common training settings
+# ---------------------------------------------------------------------------
+seed:             42
+batch_size:       32
+seq_len:          128
+num_updates:      50000   # ≈ 25 epochs × 596 batches/epoch on the coins C1 dataset
+log_interval:     10
+eval_interval:    100
+eval_episodes:    3
+num_eval_workers: 9   # Ray CPU workers for parallel scenario evaluation
+
+# /tmp/moltenpot_checkpoints/<substrate>/<train_mode>/seed_<seed>/<algorithm>/
+# Written to /tmp so each checkpoint is evicted on pod restart; the final
+# checkpoint is also deleted by the algorithm immediately after W&B upload.
+checkpoints_dir: "/tmp/moltenpot_checkpoints/${substrate}/${train_mode}/seed_${seed}/${algorithm.name}"
+
+# ---------------------------------------------------------------------------
+# Model architecture (must match the PPO model used for data collection)
+# ---------------------------------------------------------------------------
+model:
+  num_actions:   9      # override to match substrate
+  fc_units:      256
+  gru_hidden:    256
+  max_agents:    8      # one-hot agent-ID size; must be ≥ num focal agents in any scenario
+  use_agent_id:  true   # concatenate one-hot agent index to GRU input
+
+# ---------------------------------------------------------------------------
+# HuggingFace Hub — dataset auto-download
+# ---------------------------------------------------------------------------
+hub:
+  repo_id: jcformanek/moltenpot
+  auto_download: true
+
+# ---------------------------------------------------------------------------
+# Weights & Biases
+# ---------------------------------------------------------------------------
+wandb:
+  enabled:  true
+  project:  "moltenpot-offline-all"
+  entity:   null    # W&B entity/team — set via WANDB_ENTITY env var or wandb.entity= override
+  run_name: null    # auto-generated from algorithm+substrate+train_mode+seed if null
+  group:    null    # W&B run group — set per benchmark split (e.g. "coins_C1")
+
+# ---------------------------------------------------------------------------
+# Hydra output directories
+# ---------------------------------------------------------------------------
+hydra:
+  # All Hydra scratch (run logs, resolved config dump, overrides, etc.) lives
+  # under /tmp so the repo working tree stays clean and pod disk doesn't fill.
+  output_subdir: null   # skip the .hydra/ dump of resolved config + overrides
+  run:
+    dir: /tmp/moltenpot_hydra/offline/${algorithm.name}/${train_mode}/seed_${seed}/${now:%Y-%m-%d_%H-%M-%S}
+  sweep:
+    dir:    /tmp/moltenpot_hydra/sweeps/offline/${algorithm.name}/${train_mode}/${now:%Y-%m-%d_%H-%M-%S}
+    subdir: ${hydra.job.num}

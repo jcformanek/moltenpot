@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Molten Pot — Setting 3 splits</title>
+<meta name="description" content="Train → test scenario shifts for Setting 3 of the Molten Pot benchmark." />
+<link rel="stylesheet" href="style.css?v=3" />
+</head>
+<body>
+<header>
+  <nav class="topnav">
+    <a href="index.html">Scenarios</a>
+    <a href="splits.html" aria-current="page">Setting 3 splits</a>
+  </nav>
+  <h1>Molten Pot <span class="muted">— Setting 3 splits</span></h1>
+  <p class="tagline">
+    Setting 3 trains a single offline policy on a subset of a
+    substrate's scenarios and evaluates it on the disjoint complement.
+    Each card below is one such split: trained-policy rollouts on the
+    train scenarios appear at the top, then a downward shift arrow
+    signals the distributional move to the held-out test scenarios
+    below. The clips are end-of-training PPO rollouts on each
+    scenario — a reference for what an "expert" focal policy looks
+    like in that scenario. Each card closes with a per-algorithm
+    plot of the normalised final-eval return, with a circle for the
+    in-distribution mean and a square for the out-of-distribution
+    mean (error bars are SE; faint markers behind each mean are the
+    individual (scenario, seed) samples).
+  </p>
+</header>
+
+<main id="splits-app">
+  <div id="splits-root">Loading…</div>
+</main>
+
+<footer>
+  <p>
+    Companion site to the paper
+    <em>Molten Pot: Evaluations &amp; Datasets for Social Offline
+    Reinforcement Learning</em>.
+    Source code:
+    <a href="https://github.com/jcformanek/moltenpot">github.com/jcformanek/moltenpot</a>
+    · Datasets:
+    <a href="https://huggingface.co/datasets/jcformanek/moltenpot">huggingface.co/datasets/jcformanek/moltenpot</a>.
+  </p>
+</footer>
+
+<script src="splits.js?v=2"></script>
+</body>
+</html>

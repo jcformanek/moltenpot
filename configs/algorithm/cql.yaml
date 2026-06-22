@@ -1,0 +1,21 @@
+# =============================================================================
+# algorithm/cql.yaml — Conservative Q-Learning hyperparameters
+# =============================================================================
+# Usage: python scripts/train_offline.py algorithm=cql ...
+# Key hyperparameter: cql_alpha (strength of conservative regulariser)
+
+name: cql
+
+# Q-network optimizer
+q_lr:     3e-4
+
+# RL discount
+gamma: 0.99
+
+# Soft target update rate
+tau: 0.005
+
+# CQL regularisation coefficient
+# Larger alpha → more conservative Q-values, less overestimation
+# Smaller alpha → closer to standard Q-learning
+cql_alpha: 5.0

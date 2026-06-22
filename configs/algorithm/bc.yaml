@@ -1,0 +1,10 @@
+# =============================================================================
+# algorithm/bc.yaml — Behavior Cloning hyperparameters
+# =============================================================================
+# Usage: python scripts/train_offline.py algorithm=bc ...
+# Sweep: python scripts/train_offline.py --multirun algorithm=bc algorithm.lr=1e-4,3e-4,1e-3
+
+name: bc
+
+# Optimizer
+lr: 3e-4

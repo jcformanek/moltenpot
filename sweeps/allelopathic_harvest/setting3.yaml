@@ -1,0 +1,34 @@
+# =============================================================================
+# Setting 3 — zero-shot social generalisation (allelopathic_harvest)
+# =============================================================================
+# For each split, train on the train-side scenarios and evaluate zero-shot on
+# the test-side ones. 4 splits x 4 algorithms x 3 seeds = 48 runs.
+# =============================================================================
+
+name: moltenpot-setting3-allelopathic_harvest
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: out_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  experiment:
+    values:
+      - benchmark_allelopathic_A1
+      - benchmark_allelopathic_A2
+      - benchmark_allelopathic_A3
+      - benchmark_allelopathic_A4
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=${experiment}
+  - algorithm=${algorithm}
+  - seed=${seed}

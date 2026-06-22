@@ -1,0 +1,13 @@
+# @package _global_
+# =============================================================================
+# sweep_setting1.yaml — Setting 1 helper for W&B sweeps
+# =============================================================================
+# Couples in_dist_scenarios to the swept train_mode so a Setting-1 sweep only
+# has to vary one parameter. Used by sweeps/<substrate>/setting1.yaml.
+# =============================================================================
+
+
+out_dist_eval: false
+out_dist_scenarios: []
+in_dist_scenarios:
+  - ${train_mode}

@@ -1,0 +1,35 @@
+# =============================================================================
+# Setting 3 — zero-shot social generalisation (coins)
+# =============================================================================
+# For each split, train on the train-side scenarios and evaluate zero-shot on
+# the test-side ones. 4 splits x 4 algorithms x 3 seeds = 48 runs.
+# =============================================================================
+
+name: moltenpot-setting3-coins
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: out_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  experiment:
+    values:
+      - benchmark_coins_C1
+      - benchmark_coins_C2
+      - benchmark_coins_C3
+      - benchmark_coins_C4
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=${experiment}
+  - algorithm=${algorithm}
+  - model.num_actions=7
+  - seed=${seed}

@@ -1,0 +1,37 @@
+# @package _global_
+# =============================================================================
+# benchmark_allelopathic_A1.yaml — "Against the Grain"
+# =============================================================================
+# A1: train in favorable/aligned conditions; test against opposing convention.
+#
+# Train : {open_1, open_3, open_4, open_7, open_8}
+#  Test : {open_0, open_5, open_6}
+# =============================================================================
+
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: A1
+
+out_dist_eval: true
+
+in_dist_scenarios:
+  - allelopathic_harvest__open_1
+  - allelopathic_harvest__open_3
+  - allelopathic_harvest__open_4
+  - allelopathic_harvest__open_7
+  - allelopathic_harvest__open_8
+
+out_dist_scenarios:
+  - allelopathic_harvest__open_0
+  - allelopathic_harvest__open_5
+  - allelopathic_harvest__open_6
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+num_eval_workers: 5
+
+wandb:
+  group: allelopathic_A1
