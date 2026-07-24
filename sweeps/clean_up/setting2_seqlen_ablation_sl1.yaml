@@ -1,0 +1,46 @@
+# =============================================================================
+# Setting 2 — seq_len ablation, seq_len=1 (clean_up)   [NeurIPS rebuttal · MVP]
+# =============================================================================
+# One of a pair (see *_sl4.yaml). Split per seq_len because a wandb grid sweep
+# can't COUPLE two parameters, and batch_size must scale with seq_len.
+#
+# Sample-count control: keep transitions/update ≈ the seq_len=128 baseline
+# (batch_size 32 x seq_len 128 = 4096). So batch_size = 4096 / seq_len:
+#   seq_len=1 -> batch_size=4096  (this file)
+#   seq_len=4 -> batch_size=1024  (*_sl4.yaml)
+#
+# num_updates=25000 (baseline budget); eval disabled (num_eval_workers=0).
+# block_read=true: block-reading loader (one chunk-decompress per ~100 windows +
+# shuffle buffer) — ~46x faster at seq_len=1 with i.i.d. batches, low RAM.
+# Same W&B group as sl4 so the reload-eval finds all runs together;
+# config.seq_len / config.batch_size distinguish them.
+#
+# Grid: 4 algorithms x 3 seeds = 12 runs.
+# =============================================================================
+
+name: moltenpot-setting2-clean_up-seqlen1
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_clean_ALL
+  - wandb.group=clean_up_ALL_seqlen_ablation
+  - num_updates=25000
+  - num_eval_workers=0
+  - seq_len=1
+  - batch_size=4096       # 4096 / seq_len(=1) -> matches baseline transitions/update
+  - block_read=true       # block-reading loader (see header) — ~46x faster at seq_len=1
+  - ${args_no_hyphens}

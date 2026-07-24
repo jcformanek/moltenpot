@@ -68,6 +68,16 @@ eval_interval:    100
 eval_episodes:    3
 num_eval_workers: 9   # Ray CPU workers for parallel scenario evaluation
 
+# Block-reading data loader (opt-in). At small seq_len a per-sample read
+# decompresses a whole ~100-step obs chunk, so batch_size decompresses/batch
+# is an I/O wall. block_read=true reads one chunk-aligned block per decompress,
+# extracts all its windows, and shuffle-buffers them into ~i.i.d. batches.
+# Off by default → original map-style loader (unchanged).
+block_read:           false
+block_len:            100     # HDF5 obs chunk length; one block ≈ one decompress
+block_shuffle_buffer: 4096    # windows held for de-correlation (bigger = more i.i.d.)
+block_workers:        4       # DataLoader workers for the block loader
+
 # /tmp/moltenpot_checkpoints/<substrate>/<train_mode>/seed_<seed>/<algorithm>/
 # Written to /tmp so each checkpoint is evicted on pod restart; the final
 # checkpoint is also deleted by the algorithm immediately after W&B upload.

@@ -208,6 +208,16 @@ def evaluate_multi_scenario(
     dict
         Flat metrics dict suitable for ``wandb.log``.
     """
+    # Disable eval entirely (e.g. num_eval_workers=0) — return before Ray init so
+    # NO MeltingPot environments are spawned. Used to keep training RAM low and
+    # rely solely on the post-training reload eval. Empty dict is safe for callers
+    # (log_dict.update({}) / wandb.log({}) / .get(...) all no-op).
+    if num_eval_workers <= 0 or num_episodes <= 0:
+        logger.info("evaluate_multi_scenario: eval disabled "
+                    "(num_eval_workers=%d, num_episodes=%d) — skipping.",
+                    num_eval_workers, num_episodes)
+        return {}
+
     if not ray.is_initialized():
         ray.init(ignore_reinit_error=True)
 

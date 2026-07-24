@@ -25,7 +25,7 @@ import torch.nn.functional as F
 from omegaconf import DictConfig, OmegaConf
 from torch.utils.data import DataLoader
 
-from moltenpot.data_utils import MultiScenarioTransitionDataset
+from moltenpot.data_utils import make_offline_dataloader
 from moltenpot.model import MoltenpotAgent
 from moltenpot.algorithms.eval_utils import evaluate_multi_scenario
 
@@ -71,14 +71,7 @@ def train(cfg: DictConfig) -> None:
     num_actions = int(cfg.model.num_actions)
     logger.info("num_actions=%d (from cfg.model.num_actions)", num_actions)
 
-    dataset = MultiScenarioTransitionDataset(cfg.data_root, in_dist, seq_len=cfg.seq_len)
-    dataloader = DataLoader(
-        dataset,
-        batch_size=cfg.batch_size,
-        sampler=dataset.make_sampler(),
-        num_workers=2,
-        drop_last=True,
-    )
+    dataloader = make_offline_dataloader(cfg, need_next_obs=True)
 
     model = MoltenpotAgent(
         num_actions=num_actions,
