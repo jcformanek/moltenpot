@@ -187,6 +187,10 @@ class MultiScenarioDataset(Dataset):
         seq_len: int = 128,
     ) -> None:
         self.seq_len = seq_len
+        # Canonical scenario index = position in the provided scenario_names list
+        # (i.e. cfg.in_dist_scenarios order). Emitted per sample so the model can
+        # append a one-hot scenario ID; kept stable even if a scenario is skipped.
+        self._scenario_to_idx = {name: i for i, name in enumerate(scenario_names)}
         self._samples, self._scenario_ranges = _build_index(
             data_root, scenario_names, seq_len, need_next_obs=False
         )
@@ -198,7 +202,7 @@ class MultiScenarioDataset(Dataset):
     def __len__(self) -> int:
         return len(self._samples)
 
-    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def __getitem__(self, idx: int) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         hdf5_path, scenario, ep_name, agent_idx, start_t = self._samples[idx]
         end_t = start_t + self.seq_len
 
@@ -210,7 +214,8 @@ class MultiScenarioDataset(Dataset):
         obs = torch.from_numpy(obs_uint8).float() / 255.0
         act = torch.from_numpy(actions).long()
         aid = torch.tensor(agent_idx, dtype=torch.long)
-        return obs, act, aid
+        sid = torch.tensor(self._scenario_to_idx[scenario], dtype=torch.long)
+        return obs, act, aid, sid
 
     def make_sampler(self) -> Sampler:
         """Return a sampler giving equal probability per scenario (uniform within).
@@ -293,9 +298,9 @@ class BlockShuffleDataset(IterableDataset):
     are ~i.i.d. (matching the map-style loader) rather than temporally correlated.
 
     Emits the SAME per-sample tuples as the map-style datasets, so it is a drop-in
-    replacement:
-      need_next_obs=False -> (obs[T,3,88,88] float, act[T] long, aid long)      [BC]
-      need_next_obs=True  -> (obs[T+1,...] , act[T], rew[T], done[T], aid)       [BCQ/IQL/CQL]
+    replacement (``sid`` is the canonical scenario index for scenario-ID conditioning):
+      need_next_obs=False -> (obs[T,3,88,88] float, act[T] long, aid long, sid long)   [BC]
+      need_next_obs=True  -> (obs[T+1,...] , act[T], rew[T], done[T], aid, sid)         [BCQ/IQL/CQL]
 
     Sampling: scenario uniform -> block uniform within scenario -> all windows in
     block. With regular episode lengths this matches the map-style per-scenario
@@ -320,6 +325,10 @@ class BlockShuffleDataset(IterableDataset):
         self.block_len = int(block_len)
         self.shuffle_buffer = int(shuffle_buffer)
         self.seed = int(seed)
+        # Canonical scenario index = position in the provided scenario_names list
+        # (cfg.in_dist_scenarios order), emitted per window for scenario-ID
+        # conditioning. Keyed by name so it stays correct if a scenario is skipped.
+        self._scenario_to_idx = {name: i for i, name in enumerate(scenario_names)}
         (self._scen_paths, self._scen_names,
          self._blocks, self._scenario_ranges) = _build_block_index(
             data_root, scenario_names, seq_len, need_next_obs, block_len
@@ -342,6 +351,7 @@ class BlockShuffleDataset(IterableDataset):
             f = h5py.File(path, "r")
             files[path] = f
         grp = f[self._scen_names[s_idx]][ep_name]
+        scen_id = self._scenario_to_idx[self._scen_names[s_idx]]   # constant over the block
         sl = self.seq_len
         n = self._wins_per_block
         span = self.block_len + (1 if self.need_next_obs else 0)
@@ -358,29 +368,31 @@ class BlockShuffleDataset(IterableDataset):
                             act_blk[o:o + sl].copy(),
                             rew_blk[o:o + sl].copy(),
                             don_blk[o:o + sl].copy(),
-                            agent))
+                            agent, scen_id))
             else:
                 out.append((obs_blk[o:o + sl].copy(),
                             act_blk[o:o + sl].copy(),
-                            agent))
+                            agent, scen_id))
         return out
 
     def _to_tensors(self, item):
         """Convert a stored numpy window to the exact map-style tensor tuple."""
         if self.need_next_obs:
-            obs_u8, act, rew, don, aid = item
+            obs_u8, act, rew, don, aid, sid = item
             return (
                 torch.from_numpy(obs_u8).float() / 255.0,
                 torch.from_numpy(act).long(),
                 torch.from_numpy(rew).float(),
                 torch.from_numpy(don).float(),
                 torch.tensor(aid, dtype=torch.long),
+                torch.tensor(sid, dtype=torch.long),
             )
-        obs_u8, act, aid = item
+        obs_u8, act, aid, sid = item
         return (
             torch.from_numpy(obs_u8).float() / 255.0,
             torch.from_numpy(act).long(),
             torch.tensor(aid, dtype=torch.long),
+            torch.tensor(sid, dtype=torch.long),
         )
 
     def __iter__(self):
@@ -494,6 +506,10 @@ class MultiScenarioTransitionDataset(Dataset):
         seq_len: int = 128,
     ) -> None:
         self.seq_len = seq_len
+        # Canonical scenario index = position in the provided scenario_names list
+        # (i.e. cfg.in_dist_scenarios order); emitted per sample for scenario-ID
+        # conditioning (see MultiScenarioDataset).
+        self._scenario_to_idx = {name: i for i, name in enumerate(scenario_names)}
         self._samples, self._scenario_ranges = _build_index(
             data_root, scenario_names, seq_len, need_next_obs=True
         )
@@ -507,7 +523,7 @@ class MultiScenarioTransitionDataset(Dataset):
 
     def __getitem__(
         self, idx: int
-    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         hdf5_path, scenario, ep_name, agent_idx, start_t = self._samples[idx]
         end_t = start_t + self.seq_len + 1  # +1 for next_obs
 
@@ -523,7 +539,8 @@ class MultiScenarioTransitionDataset(Dataset):
         rew = torch.from_numpy(rewards).float()
         don = torch.from_numpy(dones).float()
         aid = torch.tensor(agent_idx, dtype=torch.long)
-        return obs, act, rew, don, aid
+        sid = torch.tensor(self._scenario_to_idx[scenario], dtype=torch.long)
+        return obs, act, rew, don, aid, sid
 
     def make_sampler(self) -> Sampler:
         """Return a sampler giving equal probability per scenario (uniform within).

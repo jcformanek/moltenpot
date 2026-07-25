@@ -76,7 +76,7 @@ def _gini(returns: np.ndarray) -> float:
 @ray.remote(num_cpus=1)
 def _eval_scenario_worker(
     weights:       dict,
-    model_cfg:     dict,   # {num_actions, fc_units, gru_hidden, max_agents}
+    model_cfg:     dict,   # {num_actions, fc_units, gru_hidden, max_agents, num_scenarios}
     scenario:      str,
     act_type:      str,    # "standard" | "bcq" | "cql"
     bcq_tau:       float,
@@ -84,6 +84,8 @@ def _eval_scenario_worker(
     num_episodes:  int,
     max_steps:     int,
     use_agent_id:  bool = True,
+    use_scenario_id: bool = False,
+    scenario_idx:  Optional[int] = None,
 ) -> dict:
     """
     Evaluate one scenario in an isolated Ray worker process.
@@ -103,6 +105,12 @@ def _eval_scenario_worker(
     env = MeltingPotShimmy(scenario, seed=seed, max_steps=max_steps)
     A   = env.num_focal
     agent_ids = torch.arange(A, dtype=torch.long) if use_agent_id else None
+    # Scenario-ID conditioning: same canonical index for all focal agents of this
+    # scenario. None (e.g. unseen OOD scenario) -> zeros one-hot inside the model.
+    scenario_ids = (
+        torch.full((A,), int(scenario_idx), dtype=torch.long)
+        if (use_scenario_id and scenario_idx is not None) else None
+    )
 
     # The model may have more action heads than the substrate exposes (e.g. an
     # 8-head model evaluated on coins where the env only has 7 actions). Sampled
@@ -116,7 +124,7 @@ def _eval_scenario_worker(
 
     if act_type == "bcq":
         def _act(obs_t: torch.Tensor, h_state: torch.Tensor) -> Tuple:
-            q1, q2, _, logits, h_state = model.get_q_v(obs_t.unsqueeze(1), h_state, agent_ids=agent_ids)
+            q1, q2, _, logits, h_state = model.get_q_v(obs_t.unsqueeze(1), h_state, agent_ids=agent_ids, scenario_ids=scenario_ids)
             q_min    = torch.min(q1, q2).squeeze(1)
             probs    = F.softmax(logits.squeeze(1), dim=-1)
             max_prob = probs.max(dim=-1, keepdim=True)[0]
@@ -126,12 +134,12 @@ def _eval_scenario_worker(
     elif act_type == "cql":
         # Discrete CQL: greedy w.r.t. min(Q1, Q2). The actor head is unused.
         def _act(obs_t: torch.Tensor, h_state: torch.Tensor) -> Tuple:
-            q1, q2, _, _, h_state = model.get_q_v(obs_t.unsqueeze(1), h_state, agent_ids=agent_ids)
+            q1, q2, _, _, h_state = model.get_q_v(obs_t.unsqueeze(1), h_state, agent_ids=agent_ids, scenario_ids=scenario_ids)
             q_min = torch.min(q1, q2).squeeze(1)
             return q_min.argmax(dim=-1).cpu().numpy(), h_state
     else:
         def _act(obs_t: torch.Tensor, h_state: torch.Tensor) -> Tuple:
-            actions, _, _, h_state = model.act_batch(obs_t, h_state, agent_ids=agent_ids)
+            actions, _, _, h_state = model.act_batch(obs_t, h_state, agent_ids=agent_ids, scenario_ids=scenario_ids)
             return actions, h_state
 
     ep_returns    = []
@@ -190,6 +198,7 @@ def evaluate_multi_scenario(
     num_episodes:        int   = 2,
     max_steps:           int   = 1000,
     use_agent_id:        bool  = True,
+    use_scenario_id:     bool  = False,
 ) -> Dict[str, float]:
     """
     Evaluate a policy across multiple scenarios in parallel using Ray workers.
@@ -237,11 +246,15 @@ def evaluate_multi_scenario(
 
     weights   = model.get_weights()
     model_cfg = {
-        "num_actions": model.num_actions,
-        "fc_units":    model.fc_units,
-        "gru_hidden":  model.gru_hidden,
-        "max_agents":  model.max_agents,
+        "num_actions":   model.num_actions,
+        "fc_units":      model.fc_units,
+        "gru_hidden":    model.gru_hidden,
+        "max_agents":    model.max_agents,
+        "num_scenarios": model.num_scenarios,
     }
+    # Canonical scenario index for conditioning = position in in_dist_scenarios
+    # (matches the training-time ordering). OOD scenarios have no index -> None.
+    scenario_to_idx = {s: i for i, s in enumerate(in_dist_scenarios)}
 
     # Build the full list of (scenario, prefix) to evaluate
     all_tasks: List[Tuple[str, str]] = [
@@ -262,9 +275,11 @@ def evaluate_multi_scenario(
     results: Dict[str, float] = {}
 
     def _submit(scenario: str, prefix: str) -> None:
+        sid = scenario_to_idx.get(scenario) if use_scenario_id else None
         ref = _eval_scenario_worker.remote(
             weights, model_cfg, scenario, act_type, bcq_tau,
             seed, num_episodes, max_steps, use_agent_id,
+            use_scenario_id, sid,
         )
         pending[ref] = (scenario, prefix)
 

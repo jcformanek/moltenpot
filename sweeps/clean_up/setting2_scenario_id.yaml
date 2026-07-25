@@ -1,0 +1,46 @@
+# =============================================================================
+# Setting 2 — scenario-ID conditioning baseline (clean_up)   [seq_len=128]
+# =============================================================================
+# Same multi-scenario setup as setting2.yaml (train on the union of clean_up
+# in-dist scenarios, benchmark_clean_ALL), but the policy is TOLD which scenario
+# it is in: a one-hot over the 9 in-dist scenarios is appended to the CNN
+# features (after the conv net, alongside the agent one-hot), at BOTH training
+# and evaluation time. num_scenarios is derived from len(in_dist_scenarios)=9.
+#
+# Purpose: a baseline that removes the need for partner inference. Compare its
+# in-distribution return against the standard Setting 2 (setting2.yaml, no
+# scenario ID) to see how much of the gap is due to having to infer which
+# partner population / scenario the policy is facing.
+#
+# seq_len=128 and num_updates left at the config defaults (batch_size=32,
+# num_updates=50000) so it matches the Setting 2 baseline exactly except for the
+# scenario-ID input. Eval is left ON (in-dist only; benchmark_clean_ALL sets
+# out_dist_eval=false), so in-dist return is logged during training.
+#
+# Grid: 4 algorithms x 3 seeds = 12 runs. Distinct W&B group so it does not mix
+# with the plain Setting 2 runs.
+# =============================================================================
+
+name: moltenpot-setting2-clean_up-scenario_id
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  algorithm:
+    values: [bc, bcq, iql, cql]
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_clean_ALL
+  - wandb.group=clean_up_ALL_scenario_id
+  - seq_len=128
+  - model.use_scenario_id=true    # append one-hot scenario ID after the conv net (train + eval)
+  - ${args_no_hyphens}

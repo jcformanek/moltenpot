@@ -92,6 +92,11 @@ model:
   gru_hidden:    256
   max_agents:    8      # one-hot agent-ID size; must be ≥ num focal agents in any scenario
   use_agent_id:  true   # concatenate one-hot agent index to GRU input
+  # Scenario-ID conditioning (Setting-2 baseline): when true, append a one-hot of
+  # the scenario index (over cfg.in_dist_scenarios) to the CNN features, at train
+  # AND eval time. Tells the policy which scenario it is in so partner inference
+  # is no longer required. num_scenarios is derived from len(in_dist_scenarios).
+  use_scenario_id: false
 
 # ---------------------------------------------------------------------------
 # HuggingFace Hub — dataset auto-download

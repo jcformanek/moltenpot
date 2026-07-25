@@ -52,6 +52,14 @@ def train(cfg: DictConfig) -> None:
     num_actions = int(cfg.model.num_actions)
     logger.info("num_actions=%d (from cfg.model.num_actions)", num_actions)
 
+    use_scenario_id = bool(cfg.model.get("use_scenario_id", False))
+    num_scenarios   = len(in_dist) if use_scenario_id else 0
+    if use_scenario_id:
+        logger.info(
+            "Scenario-ID conditioning ON: one-hot over %d scenarios appended to CNN features.",
+            num_scenarios,
+        )
+
     dataloader = make_offline_dataloader(cfg, need_next_obs=False)
 
     model = MoltenpotAgent(
@@ -59,6 +67,7 @@ def train(cfg: DictConfig) -> None:
         fc_units=cfg.model.fc_units,
         gru_hidden=cfg.model.gru_hidden,
         max_agents=cfg.model.max_agents,
+        num_scenarios=num_scenarios,
     ).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=cfg.algorithm.lr)
     criterion = nn.CrossEntropyLoss()
@@ -79,6 +88,7 @@ def train(cfg: DictConfig) -> None:
         seed=cfg.seed,
         num_episodes=cfg.eval_episodes,
         use_agent_id=cfg.model.use_agent_id,
+        use_scenario_id=use_scenario_id,
     )
     logger.info(
         "Eval | step=0 (init) | in_dist=%.2f",
@@ -89,14 +99,15 @@ def train(cfg: DictConfig) -> None:
         wandb.log(init_metrics, step=0)
 
     for global_step in range(cfg.num_updates):
-        obs, actions, agent_ids = next(data_iter)
+        obs, actions, agent_ids, scenario_ids = next(data_iter)
         B, T = obs.shape[:2]
         obs       = obs.to(device)
         actions   = actions.to(device)
         agent_ids = agent_ids.to(device) if cfg.model.use_agent_id else None
+        scenario_ids = scenario_ids.to(device) if use_scenario_id else None
 
         h_state = model.initial_hidden(batch_size=B).to(device)
-        logits, _, _ = model(obs, h_state, agent_ids=agent_ids)   # (B, T, num_actions)
+        logits, _, _ = model(obs, h_state, agent_ids=agent_ids, scenario_ids=scenario_ids)   # (B, T, num_actions)
 
         loss  = criterion(logits.reshape(-1, model.num_actions), actions.reshape(-1))
         preds = logits.reshape(-1, model.num_actions).argmax(dim=-1)
@@ -130,6 +141,7 @@ def train(cfg: DictConfig) -> None:
                 seed=cfg.seed,
                 num_episodes=cfg.eval_episodes,
                 use_agent_id=cfg.model.use_agent_id,
+                use_scenario_id=use_scenario_id,
             )
             logger.info(
                 "Eval | step=%d | in_dist=%.2f",
@@ -147,6 +159,7 @@ def train(cfg: DictConfig) -> None:
         seed=cfg.seed,
         num_episodes=cfg.eval_episodes,
         use_agent_id=cfg.model.use_agent_id,
+        use_scenario_id=use_scenario_id,
     )
     logger.info(
         "Eval | step=%d (final) | in_dist=%.2f",

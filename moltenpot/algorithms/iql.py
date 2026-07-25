@@ -73,11 +73,20 @@ def train(cfg: DictConfig) -> None:
 
     dataloader = make_offline_dataloader(cfg, need_next_obs=True)
 
+    use_scenario_id = bool(cfg.model.get("use_scenario_id", False))
+    num_scenarios   = len(in_dist) if use_scenario_id else 0
+    if use_scenario_id:
+        logger.info(
+            "Scenario-ID conditioning ON: one-hot over %d scenarios appended to CNN features.",
+            num_scenarios,
+        )
+
     model = MoltenpotAgent(
         num_actions=num_actions,
         fc_units=cfg.model.fc_units,
         gru_hidden=cfg.model.gru_hidden,
         max_agents=cfg.model.max_agents,
+        num_scenarios=num_scenarios,
     ).to(device)
     target = copy.deepcopy(model).requires_grad_(False).to(device)
 
@@ -103,7 +112,7 @@ def train(cfg: DictConfig) -> None:
         num_eval_workers=cfg.num_eval_workers,
         seed=cfg.seed,
         num_episodes=cfg.eval_episodes,
-        use_agent_id=cfg.model.use_agent_id,
+        use_agent_id=cfg.model.use_agent_id, use_scenario_id=use_scenario_id,
     )
     logger.info(
         "Eval | step=0 (init) | in_dist=%.2f",
@@ -114,13 +123,14 @@ def train(cfg: DictConfig) -> None:
         wandb.log(init_metrics, step=0)
 
     for global_step in range(cfg.num_updates):
-        obs_full, actions, rewards, dones, agent_ids = next(data_iter)
+        obs_full, actions, rewards, dones, agent_ids, scenario_ids = next(data_iter)
         B, T = actions.shape
         obs_full  = obs_full.to(device)
         actions   = actions.to(device)
         rewards   = rewards.to(device)
         dones     = dones.to(device)
         agent_ids = agent_ids.to(device) if cfg.model.use_agent_id else None
+        scenario_ids = scenario_ids.to(device) if use_scenario_id else None
 
         obs_t   = obs_full[:, :T]
         obs_tp1 = obs_full[:, 1:]
@@ -128,13 +138,13 @@ def train(cfg: DictConfig) -> None:
         # --- 1. V-update (expectile regression) ---
         with torch.no_grad():
             q1_t, q2_t, _, _, _ = target.get_q_v(
-                obs_t, target.initial_hidden(B).to(device), agent_ids=agent_ids
+                obs_t, target.initial_hidden(B).to(device), agent_ids=agent_ids, scenario_ids=scenario_ids
             )
             q1_val = q1_t.gather(-1, actions.unsqueeze(-1)).squeeze(-1)
             q2_val = q2_t.gather(-1, actions.unsqueeze(-1)).squeeze(-1)
             q_dataset = torch.min(q1_val, q2_val)
 
-        _, _, v_t, _, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids)
+        _, _, v_t, _, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids, scenario_ids=scenario_ids)
         v_t     = v_t.squeeze(-1)
         v_loss  = _expectile_loss(q_dataset - v_t, alg.iql_tau)
 
@@ -145,12 +155,12 @@ def train(cfg: DictConfig) -> None:
         # --- 2. Q-update (Bellman backup via target V) ---
         with torch.no_grad():
             _, _, v_tp1, _, _ = target.get_q_v(
-                obs_tp1, target.initial_hidden(B).to(device), agent_ids=agent_ids
+                obs_tp1, target.initial_hidden(B).to(device), agent_ids=agent_ids, scenario_ids=scenario_ids
             )
             v_tp1    = v_tp1.squeeze(-1)
             q_target = rewards + alg.gamma * (1 - dones) * v_tp1
 
-        q1_s, q2_s, _, _, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids)
+        q1_s, q2_s, _, _, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids, scenario_ids=scenario_ids)
         q1_s_val = q1_s.gather(-1, actions.unsqueeze(-1)).squeeze(-1)
         q2_s_val = q2_s.gather(-1, actions.unsqueeze(-1)).squeeze(-1)
         q_loss   = F.mse_loss(q1_s_val, q_target) + F.mse_loss(q2_s_val, q_target)
@@ -166,7 +176,7 @@ def train(cfg: DictConfig) -> None:
             adv     = q_dataset - v_t
             exp_adv = torch.exp(alg.beta * adv).clamp(max=100.0)
 
-        _, _, _, logits, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids)
+        _, _, _, logits, _ = model.get_q_v(obs_t, model.initial_hidden(B).to(device), agent_ids=agent_ids, scenario_ids=scenario_ids)
         log_probs  = F.log_softmax(logits, dim=-1)
         action_lp  = log_probs.gather(-1, actions.unsqueeze(-1)).squeeze(-1)
         actor_loss = -(exp_adv * action_lp).mean()
@@ -199,7 +209,7 @@ def train(cfg: DictConfig) -> None:
                 num_eval_workers=cfg.num_eval_workers,
                 seed=cfg.seed,
                 num_episodes=cfg.eval_episodes,
-                use_agent_id=cfg.model.use_agent_id,
+                use_agent_id=cfg.model.use_agent_id, use_scenario_id=use_scenario_id,
             )
             logger.info(
                 "Eval | step=%d | in_dist=%.2f",
@@ -216,7 +226,7 @@ def train(cfg: DictConfig) -> None:
         num_eval_workers=cfg.num_eval_workers,
         seed=cfg.seed,
         num_episodes=cfg.eval_episodes,
-        use_agent_id=cfg.model.use_agent_id,
+        use_agent_id=cfg.model.use_agent_id, use_scenario_id=use_scenario_id,
     )
     logger.info(
         "Eval | step=%d (final) | in_dist=%.2f",

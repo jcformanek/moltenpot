@@ -149,16 +149,23 @@ class MoltenpotAgent(nn.Module):
         fc_units: int = FC_UNITS,
         gru_hidden: int = GRU_HIDDEN,
         max_agents: int = MAX_AGENTS,
+        num_scenarios: int = 0,
     ) -> None:
         super().__init__()
-        self.num_actions = num_actions
-        self.fc_units    = fc_units
-        self.gru_hidden  = gru_hidden
-        self.max_agents  = max_agents
+        self.num_actions   = num_actions
+        self.fc_units      = fc_units
+        self.gru_hidden    = gru_hidden
+        self.max_agents    = max_agents
+        # When >0, a one-hot scenario ID is appended to the CNN features (after
+        # the agent one-hot) so the policy is told which scenario it is in and no
+        # longer has to infer partner behaviour. 0 disables it (default), leaving
+        # the architecture identical to the unconditioned model.
+        self.num_scenarios = num_scenarios
 
         self.backbone = CNNBackbone(fc_units=fc_units)
         self.gru = nn.GRU(
-            input_size=fc_units + max_agents,  # agent one-hot appended to CNN features
+            # CNN features + agent one-hot + (optional) scenario one-hot
+            input_size=fc_units + max_agents + num_scenarios,
             hidden_size=gru_hidden,
             num_layers=1,
             batch_first=True,
@@ -184,43 +191,62 @@ class MoltenpotAgent(nn.Module):
     # Forward
     # ------------------------------------------------------------------
 
-    def _with_agent_id(
+    def _augment_features(
         self,
         features: torch.Tensor,
         agent_ids: Optional[torch.Tensor],
+        scenario_ids: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         """
-        Concatenate a one-hot agent ID to CNN features before the GRU.
+        Concatenate the agent one-hot (always) and, when ``num_scenarios > 0``,
+        the scenario one-hot to CNN features before the GRU.
 
         Parameters
         ----------
-        features  : (B, T, fc_units)
-        agent_ids : (B,) long — index of each batch element's agent, or None
+        features     : (B, T, fc_units)
+        agent_ids    : (B,) long — agent index per batch element, or None → zeros
+        scenario_ids : (B,) long — scenario index per batch element, or None → zeros
+                       (only used when ``num_scenarios > 0``)
 
         Returns
         -------
-        (B, T, fc_units + max_agents)
+        (B, T, fc_units + max_agents [+ num_scenarios])
         """
         B, T = features.shape[:2]
+        parts = [features]
+
         if agent_ids is not None:
-            one_hot = F.one_hot(agent_ids.long(), num_classes=self.max_agents).float()
-            one_hot = one_hot.to(features.device).unsqueeze(1).expand(-1, T, -1)
+            agent_oh = F.one_hot(agent_ids.long(), num_classes=self.max_agents).float()
+            agent_oh = agent_oh.to(features.device).unsqueeze(1).expand(-1, T, -1)
         else:
-            one_hot = torch.zeros(B, T, self.max_agents, device=features.device)
-        return torch.cat([features, one_hot], dim=-1)
+            agent_oh = torch.zeros(B, T, self.max_agents, device=features.device)
+        parts.append(agent_oh)
+
+        if self.num_scenarios > 0:
+            if scenario_ids is not None:
+                scen_oh = F.one_hot(scenario_ids.long(), num_classes=self.num_scenarios).float()
+                scen_oh = scen_oh.to(features.device).unsqueeze(1).expand(-1, T, -1)
+            else:
+                scen_oh = torch.zeros(B, T, self.num_scenarios, device=features.device)
+            parts.append(scen_oh)
+
+        return torch.cat(parts, dim=-1)
 
     def forward(
         self,
         obs: torch.Tensor,
         h_state: torch.Tensor,
         agent_ids: Optional[torch.Tensor] = None,
+        scenario_ids: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Parameters
         ----------
-        obs       : (B, T, 3, 88, 88)  float32 — normalised pixels
-        h_state   : (1, B, gru_hidden)  float32 — GRU hidden state
-        agent_ids : (B,) long — agent index per batch element, or None
+        obs          : (B, T, 3, 88, 88)  float32 — normalised pixels
+        h_state      : (1, B, gru_hidden)  float32 — GRU hidden state
+        agent_ids    : (B,) long — agent index per batch element, or None
+        scenario_ids : (B,) long — scenario index per batch element, or None
+                       (ignored unless the model was built with num_scenarios > 0)
 
         Returns
         -------
@@ -231,7 +257,7 @@ class MoltenpotAgent(nn.Module):
         B, T = obs.shape[:2]
         x = obs.reshape(B * T, *obs.shape[2:])
         features = self.backbone(x).reshape(B, T, self.fc_units)
-        features = self._with_agent_id(features, agent_ids)
+        features = self._augment_features(features, agent_ids, scenario_ids)
         gru_out, h_new = self.gru(features, h_state)
         return self.actor(gru_out), self.critic(gru_out), h_new
 
@@ -240,13 +266,16 @@ class MoltenpotAgent(nn.Module):
         obs: torch.Tensor,
         h_state: torch.Tensor,
         agent_ids: Optional[torch.Tensor] = None,
+        scenario_ids: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Compute Q1, Q2, V, and action logits for offline RL training.
 
         Parameters
         ----------
-        agent_ids : (B,) long — agent index per batch element, or None
+        agent_ids    : (B,) long — agent index per batch element, or None
+        scenario_ids : (B,) long — scenario index per batch element, or None
+                       (ignored unless the model was built with num_scenarios > 0)
 
         Returns: (q1, q2, v, logits, h_state_new)
         q1, q2, logits: (B, T, num_actions)
@@ -255,7 +284,7 @@ class MoltenpotAgent(nn.Module):
         B, T = obs.shape[:2]
         x = obs.reshape(B * T, *obs.shape[2:])
         features = self.backbone(x).reshape(B, T, self.fc_units)
-        features = self._with_agent_id(features, agent_ids)
+        features = self._augment_features(features, agent_ids, scenario_ids)
         gru_out, h_new = self.gru(features, h_state)
         return (
             self.q1_head(gru_out),
@@ -306,15 +335,18 @@ class MoltenpotAgent(nn.Module):
         obs_batch: torch.Tensor,
         h_state: torch.Tensor,
         agent_ids: Optional[torch.Tensor] = None,
+        scenario_ids: Optional[torch.Tensor] = None,
     ):
         """
         Sample actions for multiple agents in a single forward pass.
 
         Parameters
         ----------
-        obs_batch : (A, 3, 88, 88)
-        h_state   : (1, A, gru_hidden)
-        agent_ids : (A,) long — index of each agent, or None
+        obs_batch    : (A, 3, 88, 88)
+        h_state      : (1, A, gru_hidden)
+        agent_ids    : (A,) long — index of each agent, or None
+        scenario_ids : (A,) long — scenario index of each agent, or None
+                       (ignored unless the model was built with num_scenarios > 0)
 
         Returns
         -------
@@ -325,7 +357,7 @@ class MoltenpotAgent(nn.Module):
         """
         import numpy as np
         obs = obs_batch.unsqueeze(1)                    # (A, 1, 3, 88, 88)
-        logits, value, h_new = self.forward(obs, h_state, agent_ids=agent_ids)
+        logits, value, h_new = self.forward(obs, h_state, agent_ids=agent_ids, scenario_ids=scenario_ids)
         dist      = Categorical(logits=logits[:, 0])    # (A, num_actions)
         actions   = dist.sample()
         log_probs = dist.log_prob(actions)
