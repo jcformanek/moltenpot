@@ -45,6 +45,20 @@ logger = logging.getLogger(__name__)
 # Helpers
 # ---------------------------------------------------------------------------
 
+def shutdown_ray() -> None:
+    """Tear down Ray if this process started it.
+
+    ``evaluate_multi_scenario`` lazily calls ``ray.init()`` and never shuts it
+    down; the raylet/plasma workers live until process exit. Fine under a
+    subprocess-per-run launch, but under a single-process Hydra ``--multirun``
+    the object store lingers across jobs. Call at the end of ``train()`` so the
+    next job starts clean. No-op if Ray was never initialised (e.g. eval
+    disabled via ``num_eval_workers=0``).
+    """
+    if ray.is_initialized():
+        ray.shutdown()
+
+
 def _gini(returns: np.ndarray) -> float:
     """Gini coefficient over a 1-D array of per-agent mean returns."""
     x = np.sort(returns.ravel().astype(np.float64))

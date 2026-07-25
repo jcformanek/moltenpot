@@ -15,10 +15,15 @@
 # Same W&B group as sl1 so the reload-eval finds all runs together;
 # config.seq_len / config.batch_size distinguish them.
 #
+# Fresh group (…_v2): supersedes the earlier crashed ablation run so the new
+# runs land in a clean group. Register a NEW sweep id from this file.
+#
 # Grid: 4 algorithms x 3 seeds = 12 runs.
 # =============================================================================
 
 name: moltenpot-setting2-clean_up-seqlen4
+entity: moltenpot
+project: moltenpot-offline-all
 program: scripts/train_offline.py
 method: grid
 
@@ -37,7 +42,7 @@ command:
   - python
   - ${program}
   - +experiment=benchmark_clean_ALL
-  - wandb.group=clean_up_ALL_seqlen_ablation
+  - wandb.group=clean_up_ALL_seqlen_ablation_v2
   - num_updates=25000
   - num_eval_workers=0
   - seq_len=4

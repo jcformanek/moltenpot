@@ -17,9 +17,9 @@ import torch.nn as nn
 from omegaconf import DictConfig, OmegaConf
 from torch.utils.data import DataLoader
 
-from moltenpot.data_utils import make_offline_dataloader
+from moltenpot.data_utils import make_offline_dataloader, shutdown_dataloader
 from moltenpot.model import MoltenpotAgent
-from moltenpot.algorithms.eval_utils import evaluate_multi_scenario
+from moltenpot.algorithms.eval_utils import evaluate_multi_scenario, shutdown_ray
 
 logger = logging.getLogger(__name__)
 
@@ -177,3 +177,9 @@ def train(cfg: DictConfig) -> None:
         ckpt_dir.rmdir()
     except OSError:
         pass
+
+    # Free DataLoader workers + Ray deterministically, so a single-process
+    # Hydra --multirun doesn't accumulate them run-over-run (see helper docs).
+    del data_iter
+    shutdown_dataloader(dataloader)
+    shutdown_ray()

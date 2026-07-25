@@ -445,6 +445,31 @@ def make_offline_dataloader(cfg, need_next_obs: bool) -> DataLoader:
     )
 
 
+def shutdown_dataloader(dataloader) -> None:
+    """Deterministically terminate a DataLoader's worker processes.
+
+    With ``persistent_workers=True`` over the infinite ``BlockShuffleDataset``,
+    the ``block_workers`` daemon workers (each holding a full shuffle buffer of
+    ``block_shuffle_buffer`` windows) stay alive until GC happens to collect the
+    loader's iterator cycle. Under a subprocess-per-run launch (``wandb agent``)
+    the OS reaps them at process exit, but under a single-process Hydra
+    ``--multirun`` they pile up run-over-run and leak RAM. Call at the end of
+    ``train()`` to free them immediately. No-op for ``num_workers=0`` or a loader
+    whose workers are already gone.
+    """
+    if dataloader is None:
+        return
+    it = getattr(dataloader, "_iterator", None)
+    if it is not None:
+        shutdown = getattr(it, "_shutdown_workers", None)
+        if shutdown is not None:
+            try:
+                shutdown()
+            except Exception:  # best-effort; process teardown will reap regardless
+                pass
+        dataloader._iterator = None
+
+
 class MultiScenarioTransitionDataset(Dataset):
     """
     Streams ``(obs, actions, rewards, dones)`` sequences from multiple HDF5
