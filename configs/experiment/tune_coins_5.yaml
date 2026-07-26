@@ -1,0 +1,33 @@
+# @package _global_
+# =============================================================================
+# tune_coins_5.yaml — hyper-parameter tuning scenario for Setting-3 split C4
+# =============================================================================
+# C4 (coins) has coins_0 in its TEST set, and coins_0 is the scenario we tuned
+# hyper-parameters on originally -> test-set leak. We re-tune on the smallest-
+# index scenario in C4's TRAIN set instead: coins_5.
+#
+# Single-scenario train (coins_5 only) for 10k updates, NO eval during training,
+# then one 100-episode eval on coins_5 at the very end (eval_at_end=true). The
+# winning hyper-parameters will later be used for a clean re-run of C4.
+# =============================================================================
+
+substrate:  coins
+data_root:  data/coins
+train_mode: tune
+
+out_dist_eval: false
+in_dist_scenarios:
+  - coins_5
+out_dist_scenarios: []
+
+num_updates:      10000
+eval_at_end:      true    # no eval during training; only the final eval
+eval_episodes:    100     # 100 episodes at the end, on coins_5
+num_eval_workers: 4       # modest Ray pool (single scenario -> 1 task actually runs)
+
+model:
+  num_actions: 7
+  max_agents:  8
+
+wandb:
+  group: tune_coins_5

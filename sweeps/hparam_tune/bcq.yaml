@@ -1,0 +1,35 @@
+# =============================================================================
+# BCQ hyper-parameter tuning — Setting-3 leak re-tune (coins C4 + allelo A1)
+# =============================================================================
+# Both tuning scenarios via +experiment. BCQ sweeps LR and the action-constraint
+# threshold tau. The swept LR (algorithm.q_lr) drives BOTH the Q and imitator
+# networks: the static override algorithm.imitator_lr=${algorithm.q_lr} ties
+# imitator_lr to the swept q_lr (OmegaConf interpolation, resolved at runtime).
+#
+# Grid: 2 scenarios x 3 LR x 3 tau = 18 runs.
+# Winner per scenario = highest eval/in_dist/return_mean (final 100-ep eval).
+# =============================================================================
+
+name: moltenpot-tune-bcq
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: eval/in_dist/return_mean
+  goal: maximize
+
+parameters:
+  "+experiment":
+    values: [tune_coins_5, tune_allelopathic_open_1]
+  algorithm.q_lr:
+    values: ["3e-4", "1e-4", "5e-5"]
+  algorithm.tau:
+    values: [0.1, 0.3, 0.5]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - algorithm=bcq
+  - algorithm.imitator_lr=${algorithm.q_lr}   # tie imitator LR to the swept q_lr
+  - ${args_no_hyphens}

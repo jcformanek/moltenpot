@@ -1,0 +1,36 @@
+# =============================================================================
+# IQL hyper-parameter tuning — Setting-3 leak re-tune (coins C4 + allelo A1)
+# =============================================================================
+# Both tuning scenarios via +experiment. IQL sweeps LR and the advantage
+# temperature beta. The swept LR (algorithm.q_lr) drives ALL three IQL learning
+# rates: the static overrides tie v_lr and actor_lr to the swept q_lr
+# (OmegaConf interpolation, resolved at runtime).
+#
+# Grid: 2 scenarios x 3 LR x 3 beta = 18 runs.
+# Winner per scenario = highest eval/in_dist/return_mean (final 100-ep eval).
+# =============================================================================
+
+name: moltenpot-tune-iql
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: eval/in_dist/return_mean
+  goal: maximize
+
+parameters:
+  "+experiment":
+    values: [tune_coins_5, tune_allelopathic_open_1]
+  algorithm.q_lr:
+    values: ["3e-4", "1e-4", "5e-5"]
+  algorithm.beta:
+    values: [1, 3, 5]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - algorithm=iql
+  - algorithm.v_lr=${algorithm.q_lr}       # tie V LR to the swept q_lr
+  - algorithm.actor_lr=${algorithm.q_lr}   # tie actor LR to the swept q_lr
+  - ${args_no_hyphens}

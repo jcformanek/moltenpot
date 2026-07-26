@@ -60,6 +60,13 @@ def train(cfg: DictConfig) -> None:
             num_scenarios,
         )
 
+    # eval_at_end: run NO eval during training (skip the step-0 and interval
+    # evals), keeping only the final end-of-training eval. train_eval_workers=0
+    # makes the in-loop eval calls return {} before Ray; the final eval still
+    # uses cfg.num_eval_workers. Default false -> unchanged behaviour.
+    eval_at_end = bool(cfg.get("eval_at_end", False))
+    train_eval_workers = 0 if eval_at_end else cfg.num_eval_workers
+
     dataloader = make_offline_dataloader(cfg, need_next_obs=False)
 
     model = MoltenpotAgent(
@@ -84,7 +91,7 @@ def train(cfg: DictConfig) -> None:
 
     init_metrics = evaluate_multi_scenario(
         model, in_dist, out_dist,
-        num_eval_workers=cfg.num_eval_workers,
+        num_eval_workers=train_eval_workers,
         seed=cfg.seed,
         num_episodes=cfg.eval_episodes,
         use_agent_id=cfg.model.use_agent_id,
@@ -134,7 +141,7 @@ def train(cfg: DictConfig) -> None:
                 "train/timesteps_seen": timesteps_seen,
             })
 
-        if global_step > 0 and global_step % cfg.eval_interval == 0:
+        if (not eval_at_end) and global_step > 0 and global_step % cfg.eval_interval == 0:
             metrics = evaluate_multi_scenario(
                 model, in_dist, out_dist,
                 num_eval_workers=cfg.num_eval_workers,

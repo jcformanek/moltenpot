@@ -1,0 +1,30 @@
+# =============================================================================
+# BC hyper-parameter tuning — Setting-3 leak re-tune (coins C4 + allelo A1)
+# =============================================================================
+# Runs BOTH tuning scenarios (coins_5, allelopathic_harvest__open_1) via the
+# swept +experiment param, so one sweep covers both. BC sweeps LR only.
+#
+# Grid: 2 scenarios x 3 LR = 6 runs.
+# Winner per scenario = highest eval/in_dist/return_mean (final 100-ep eval).
+# =============================================================================
+
+name: moltenpot-tune-bc
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: eval/in_dist/return_mean
+  goal: maximize
+
+parameters:
+  "+experiment":
+    values: [tune_coins_5, tune_allelopathic_open_1]
+  algorithm.lr:
+    values: ["3e-4", "1e-4", "5e-5"]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - algorithm=bc
+  - ${args_no_hyphens}

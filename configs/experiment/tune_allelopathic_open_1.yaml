@@ -1,0 +1,34 @@
+# @package _global_
+# =============================================================================
+# tune_allelopathic_open_1.yaml — tuning scenario for Setting-3 split A1
+# =============================================================================
+# A1 (allelopathic_harvest) has allelopathic_harvest__open_0 in its TEST set,
+# and open_0 is the scenario we tuned hyper-parameters on originally -> test-set
+# leak. We re-tune on the smallest-index scenario in A1's TRAIN set instead:
+# allelopathic_harvest__open_1.
+#
+# Single-scenario train (open_1 only) for 10k updates, NO eval during training,
+# then one 100-episode eval on open_1 at the very end (eval_at_end=true). The
+# winning hyper-parameters will later be used for a clean re-run of A1.
+# =============================================================================
+
+substrate:  allelopathic_harvest
+data_root:  data/allelopathic_harvest
+train_mode: tune
+
+out_dist_eval: false
+in_dist_scenarios:
+  - allelopathic_harvest__open_1
+out_dist_scenarios: []
+
+num_updates:      10000
+eval_at_end:      true    # no eval during training; only the final eval
+eval_episodes:    100     # 100 episodes at the end, on open_1
+num_eval_workers: 4       # modest Ray pool (single scenario -> 1 task actually runs)
+
+model:
+  num_actions: 11
+  max_agents:  16
+
+wandb:
+  group: tune_allelopathic_open_1
