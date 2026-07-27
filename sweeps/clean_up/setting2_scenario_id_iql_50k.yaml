@@ -1,0 +1,44 @@
+# =============================================================================
+# Setting 2 — scenario-ID conditioning, IQL only, 50k updates (clean_up)
+# =============================================================================
+# Re-run of the scenario-ID IQL baseline for LONGER training. The earlier
+# scenario-ID runs (group clean_up_ALL_scenario_id_20k) used 20k updates and
+# only tied the standard seq_len=128 IQL — possibly undertrained. This runs IQL
+# with scenario-ID conditioning for 50k updates to test whether more training
+# lets the "partner identity given" baseline pull ahead.
+#
+# Same protocol as setting2_scenario_id.yaml (benchmark_clean_ALL union,
+# seq_len=128, batch_size=32, one-hot scenario ID appended after the CNN at
+# train + eval), IQL only, num_updates=50000. Distinct W&B group so it does not
+# mix with the 20k scenario-ID runs or the plain Setting 2 runs.
+#
+# Eval left ON (in-dist; matches the prior scenario-ID runs) — final comparison
+# numbers still come from the post-training reload-eval. Override
+# num_eval_workers=0 if you want to skip in-training eval for speed.
+#
+# Grid: 1 algorithm (iql) x 3 seeds = 3 runs.
+# =============================================================================
+
+name: moltenpot-setting2-clean_up-scenario_id-iql-50k
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_clean_ALL
+  - wandb.group=clean_up_ALL_scenario_id_50k
+  - algorithm=iql
+  - seq_len=128
+  - model.use_scenario_id=true    # one-hot scenario ID appended after the conv net (train + eval)
+  - num_updates=50000
+  - ${args_no_hyphens}
