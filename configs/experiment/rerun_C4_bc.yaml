@@ -1,0 +1,18 @@
+# @package _global_
+# Setting-3 re-run: C4 with winning BC hparams (from tune_coins_5).
+# 20k updates, NO eval during training (eval_at_end), post-training eval on the
+# split's default set (out_dist_eval from benchmark_coins_C4).
+defaults:
+  - benchmark_coins_C4
+  - override /algorithm: bc
+  - _self_
+
+data_root: /workspace/hp_data/coins
+num_updates: 20000
+eval_at_end: true
+
+algorithm:
+  lr: 0.0003
+
+wandb:
+  group: rerun_C4

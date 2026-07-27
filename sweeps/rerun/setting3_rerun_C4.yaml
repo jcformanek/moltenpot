@@ -1,0 +1,21 @@
+# Setting-3 re-run — C4 split, winning tuned hparams, 20k updates, eval_at_end
+# (no eval during training; post-training eval on the split's default set).
+# Grid = 4 algorithms x 3 seeds = 12 runs.
+name: moltenpot-setting3-rerun-C4
+entity: moltenpot
+project: moltenpot-offline-all
+program: scripts/train_offline.py
+method: grid
+metric:
+  name: eval/in_dist/return_mean
+  goal: maximize
+parameters:
+  "+experiment":
+    values: [rerun_C4_bc, rerun_C4_cql, rerun_C4_bcq, rerun_C4_iql]
+  seed:
+    values: [1, 2, 3]
+command:
+  - ${env}
+  - python
+  - ${program}
+  - ${args_no_hyphens}

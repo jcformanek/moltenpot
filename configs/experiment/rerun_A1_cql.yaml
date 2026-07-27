@@ -1,0 +1,19 @@
+# @package _global_
+# Setting-3 re-run: A1 with winning CQL hparams (from tune_allelopathic_open_1).
+# 20k updates, NO eval during training (eval_at_end), post-training eval on the
+# split's default set (out_dist_eval from benchmark_allelopathic_A1).
+defaults:
+  - benchmark_allelopathic_A1
+  - override /algorithm: cql
+  - _self_
+
+data_root: /workspace/hp_data/allelopathic_harvest
+num_updates: 20000
+eval_at_end: true
+
+algorithm:
+  q_lr: 0.0003
+  cql_alpha: 10
+
+wandb:
+  group: rerun_A1
