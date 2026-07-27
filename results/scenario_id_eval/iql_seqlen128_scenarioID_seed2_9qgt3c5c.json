@@ -1,0 +1,38 @@
+{
+  "run_id": "9qgt3c5c",
+  "run_name": "iql_clean_up_ALL_s2",
+  "wandb_path": "moltenpot/moltenpot-scripts/9qgt3c5c",
+  "group": "clean_up_ALL_scenario_id_20k",
+  "algorithm": "iql",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": 32,
+  "seed": 2,
+  "use_scenario_id": true,
+  "num_scenarios": 9,
+  "eval": {
+    "num_episodes": 32,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "standard",
+    "bcq_tau": null,
+    "use_scenario_id": true
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 692.7916870117188,
+    "clean_up_2": 367.3229064941406,
+    "clean_up_3": 258.53125,
+    "clean_up_4": 4.994791507720947,
+    "clean_up_5": 23.918750762939453,
+    "clean_up_7": 125.25,
+    "clean_up_13": 318.4583435058594,
+    "clean_up_14": 46.35416793823242,
+    "clean_up_15": 472.0625
+  },
+  "aggregates": {
+    "in_dist_mean": 256.6315996911791,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

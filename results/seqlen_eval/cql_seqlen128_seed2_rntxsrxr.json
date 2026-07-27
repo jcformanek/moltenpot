@@ -1,0 +1,33 @@
+{
+  "run_id": "rntxsrxr",
+  "run_name": "cql_clean_up_ALL_s2",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/rntxsrxr",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "cql",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 2,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 70.88541412353516,
+    "clean_up_2": 30.875,
+    "clean_up_3": 68.8125,
+    "clean_up_4": 0,
+    "clean_up_5": 0,
+    "clean_up_7": 52.734375,
+    "clean_up_13": 54.09375,
+    "clean_up_14": 8.135416984558105,
+    "clean_up_15": 104.59375
+  },
+  "aggregates": {
+    "in_dist_mean": 43.34780067867703,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

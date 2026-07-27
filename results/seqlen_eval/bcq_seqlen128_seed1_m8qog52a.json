@@ -1,0 +1,33 @@
+{
+  "run_id": "m8qog52a",
+  "run_name": "bcq_clean_up_ALL_s1",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/m8qog52a",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "bcq",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 1,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 732.71875,
+    "clean_up_2": 380.8541870117187,
+    "clean_up_3": 264.36456298828125,
+    "clean_up_4": 25.963542938232425,
+    "clean_up_5": 56.787498474121094,
+    "clean_up_7": 711.296875,
+    "clean_up_13": 273.2395935058594,
+    "clean_up_14": 17.479167938232422,
+    "clean_up_15": 483.125
+  },
+  "aggregates": {
+    "in_dist_mean": 327.3143530951606,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

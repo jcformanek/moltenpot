@@ -1,0 +1,44 @@
+{
+  "run_id": "cka90or1",
+  "run_name": "cql_clean_up_ALL_s2",
+  "wandb_path": "moltenpot/moltenpot-offline-all/cka90or1",
+  "group": "clean_up_ALL_seqlen_ablation_v2",
+  "algorithm": "cql",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 1,
+  "batch_size": 4096,
+  "seed": 2,
+  "eval": {
+    "num_episodes": 64,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "cql",
+    "bcq_tau": null
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 106.625,
+    "clean_up_2": 116.875,
+    "clean_up_3": 81.41146087646484,
+    "clean_up_4": 0.5755208134651184,
+    "clean_up_5": 0.0,
+    "clean_up_7": 30.3125,
+    "clean_up_13": 48.80208206176758,
+    "clean_up_14": 0.5364583134651184,
+    "clean_up_15": 167.59375,
+    "clean_up_1": 0.0,
+    "clean_up_6": 0.0,
+    "clean_up_8": 30.2578125,
+    "clean_up_9": 0.0,
+    "clean_up_10": 0.0,
+    "clean_up_11": 0.0,
+    "clean_up_12": 0.0,
+    "clean_up_16": 113.375,
+    "clean_up_17": 70.75
+  },
+  "aggregates": {
+    "in_dist_mean": 61.41464134057363,
+    "out_dist_mean": 23.8203125,
+    "all_mean": 42.61747692028681
+  }
+}

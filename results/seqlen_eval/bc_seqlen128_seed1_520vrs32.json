@@ -1,0 +1,33 @@
+{
+  "run_id": "520vrs32",
+  "run_name": "bc_clean_up_ALL_s1",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/520vrs32",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "bc",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 1,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 476.3854370117187,
+    "clean_up_2": 193.03125,
+    "clean_up_3": 140.36459350585938,
+    "clean_up_4": 36.953125,
+    "clean_up_5": 52.36249923706055,
+    "clean_up_7": 246.203125,
+    "clean_up_13": 183.3854217529297,
+    "clean_up_14": 28.76041603088379,
+    "clean_up_15": 213.625
+  },
+  "aggregates": {
+    "in_dist_mean": 174.5634297264947,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

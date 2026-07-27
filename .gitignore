@@ -88,3 +88,7 @@ Thumbs.db
 *.ipynb
 # ...except the published quickstart walkthrough
 !notebooks/tiny_demo_walkthrough.ipynb
+
+# Reload-eval artifacts: keep JSON results, exclude checkpoints + logs
+results/*/_checkpoints/
+results/*/*.log

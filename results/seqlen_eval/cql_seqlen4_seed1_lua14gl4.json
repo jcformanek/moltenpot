@@ -1,0 +1,44 @@
+{
+  "run_id": "lua14gl4",
+  "run_name": "cql_clean_up_ALL_s1",
+  "wandb_path": "moltenpot/moltenpot-offline-all/lua14gl4",
+  "group": "clean_up_ALL_seqlen_ablation_v2",
+  "algorithm": "cql",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 4,
+  "batch_size": 1024,
+  "seed": 1,
+  "eval": {
+    "num_episodes": 64,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "cql",
+    "bcq_tau": null
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 207.9479217529297,
+    "clean_up_2": 190.2604217529297,
+    "clean_up_3": 134.3854217529297,
+    "clean_up_4": 0.453125,
+    "clean_up_5": 0.21562500298023224,
+    "clean_up_7": 70.3515625,
+    "clean_up_13": 87.77603912353516,
+    "clean_up_14": 0.4895833432674408,
+    "clean_up_15": 264.5234375,
+    "clean_up_1": 0.0,
+    "clean_up_6": 0.0,
+    "clean_up_8": 34.1640625,
+    "clean_up_9": 0.0,
+    "clean_up_10": 0.0,
+    "clean_up_11": 0.0,
+    "clean_up_12": 0.0,
+    "clean_up_16": 152.0546875,
+    "clean_up_17": 118.328125
+  },
+  "aggregates": {
+    "in_dist_mean": 106.26701530317466,
+    "out_dist_mean": 33.838541666666664,
+    "all_mean": 70.05277848492067
+  }
+}

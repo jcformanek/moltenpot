@@ -1,0 +1,44 @@
+{
+  "run_id": "6q270zie",
+  "run_name": "bcq_clean_up_ALL_s3",
+  "wandb_path": "moltenpot/moltenpot-offline-all/6q270zie",
+  "group": "clean_up_ALL_seqlen_ablation_v2",
+  "algorithm": "bcq",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 1,
+  "batch_size": 4096,
+  "seed": 3,
+  "eval": {
+    "num_episodes": 64,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "bcq",
+    "bcq_tau": 0.3
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 546.09375,
+    "clean_up_2": 285.515625,
+    "clean_up_3": 189.0,
+    "clean_up_4": 3.3385417461395264,
+    "clean_up_5": 3.78125,
+    "clean_up_7": 157.078125,
+    "clean_up_13": 201.671875,
+    "clean_up_14": 26.07291603088379,
+    "clean_up_15": 372.5390625,
+    "clean_up_1": 0.0,
+    "clean_up_6": 0.0,
+    "clean_up_8": 32.6796875,
+    "clean_up_9": 4.763020992279053,
+    "clean_up_10": 0.0,
+    "clean_up_11": 1.2578125,
+    "clean_up_12": 0.0,
+    "clean_up_16": 275.734375,
+    "clean_up_17": 307.7291564941406
+  },
+  "aggregates": {
+    "in_dist_mean": 198.34346058633594,
+    "out_dist_mean": 69.12933916515775,
+    "all_mean": 133.73639987574683
+  }
+}

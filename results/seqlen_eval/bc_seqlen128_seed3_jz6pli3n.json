@@ -1,0 +1,33 @@
+{
+  "run_id": "jz6pli3n",
+  "run_name": "bc_clean_up_ALL_s3",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/jz6pli3n",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "bc",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 3,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 425.0833129882813,
+    "clean_up_2": 207.4895782470703,
+    "clean_up_3": 136.4791717529297,
+    "clean_up_4": 36.265625,
+    "clean_up_5": 58.09375,
+    "clean_up_7": 235.65625,
+    "clean_up_13": 223.58334350585935,
+    "clean_up_14": 23.916667938232425,
+    "clean_up_15": 243.3125
+  },
+  "aggregates": {
+    "in_dist_mean": 176.6533554924859,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

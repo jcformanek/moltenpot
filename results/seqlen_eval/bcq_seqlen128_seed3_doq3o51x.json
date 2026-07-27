@@ -1,0 +1,33 @@
+{
+  "run_id": "doq3o51x",
+  "run_name": "bcq_clean_up_ALL_s3",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/doq3o51x",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "bcq",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 3,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 386.34375,
+    "clean_up_2": 242.04165649414065,
+    "clean_up_3": 129.5729217529297,
+    "clean_up_4": 21.135417938232425,
+    "clean_up_5": 51.57499694824219,
+    "clean_up_7": 618.5,
+    "clean_up_13": 129.3020782470703,
+    "clean_up_14": 12.010416030883787,
+    "clean_up_15": 311.875
+  },
+  "aggregates": {
+    "in_dist_mean": 211.3729152679443,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

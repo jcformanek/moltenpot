@@ -1,0 +1,44 @@
+{
+  "run_id": "deonige1",
+  "run_name": "bc_clean_up_ALL_s3",
+  "wandb_path": "moltenpot/moltenpot-offline-all/deonige1",
+  "group": "clean_up_ALL_seqlen_ablation_v2",
+  "algorithm": "bc",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 4,
+  "batch_size": 1024,
+  "seed": 3,
+  "eval": {
+    "num_episodes": 64,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "standard",
+    "bcq_tau": null
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 542.6770629882812,
+    "clean_up_2": 246.9010467529297,
+    "clean_up_3": 164.46875,
+    "clean_up_4": 38.3828125,
+    "clean_up_5": 49.58124923706055,
+    "clean_up_7": 295.1484375,
+    "clean_up_13": 228.3333282470703,
+    "clean_up_14": 41.38541793823242,
+    "clean_up_15": 228.1796875,
+    "clean_up_1": 0.0,
+    "clean_up_6": 10.846354484558105,
+    "clean_up_8": 54.1328125,
+    "clean_up_9": 38.90364456176758,
+    "clean_up_10": 0.010416666977107525,
+    "clean_up_11": 18.89583396911621,
+    "clean_up_12": 5.427083492279053,
+    "clean_up_16": 163.25,
+    "clean_up_17": 295.1822814941406
+  },
+  "aggregates": {
+    "in_dist_mean": 203.8953102959527,
+    "out_dist_mean": 65.18315857431541,
+    "all_mean": 134.53923443513406
+  }
+}

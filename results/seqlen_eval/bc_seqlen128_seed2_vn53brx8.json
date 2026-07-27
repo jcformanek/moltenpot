@@ -1,0 +1,33 @@
+{
+  "run_id": "vn53brx8",
+  "run_name": "bc_clean_up_ALL_s2",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/vn53brx8",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "bc",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 2,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 426.7708129882813,
+    "clean_up_2": 184.26040649414065,
+    "clean_up_3": 126.78125762939452,
+    "clean_up_4": 33.75520706176758,
+    "clean_up_5": 33.375,
+    "clean_up_7": 207.5625,
+    "clean_up_13": 184.52084350585935,
+    "clean_up_14": 38.8125,
+    "clean_up_15": 209.578125
+  },
+  "aggregates": {
+    "in_dist_mean": 160.60185029771594,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

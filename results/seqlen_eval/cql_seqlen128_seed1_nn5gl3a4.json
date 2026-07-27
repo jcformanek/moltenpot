@@ -1,0 +1,33 @@
+{
+  "run_id": "nn5gl3a4",
+  "run_name": "cql_clean_up_ALL_s1",
+  "wandb_path": "moltenpot/moltenpot-tier2-final-eval/nn5gl3a4",
+  "group": "clean_up_tier2_final_eval",
+  "algorithm": "cql",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": null,
+  "seed": 1,
+  "eval": {
+    "num_episodes": 32,
+    "source": "wandb:moltenpot-tier2-final-eval",
+    "note": "in-dist scenarios only (baseline final-eval)"
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 62.08333206176758,
+    "clean_up_2": 41.33333587646485,
+    "clean_up_3": 54.17708206176758,
+    "clean_up_4": 0,
+    "clean_up_5": 0,
+    "clean_up_7": 36.765625,
+    "clean_up_13": 26.499998092651367,
+    "clean_up_14": 0,
+    "clean_up_15": 94.234375
+  },
+  "aggregates": {
+    "in_dist_mean": 35.010416454739044,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}
