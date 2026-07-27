@@ -1,0 +1,34 @@
+# =============================================================================
+# Setting 2 — Independent ICQ (clean_up)
+# =============================================================================
+# Runs the independent ICQ algorithm (MAICQ minus the value-decomposition mixer)
+# on the Setting-2 clean_up union, to compare an offline-MARL-specific method
+# against the independent offline-RL baselines (BC/BCQ/IQL/CQL).
+#
+# Setting-2 protocol (seq_len=128, batch_size=32) but trained for 25k updates
+# (25000 x 4096 = 102.4M transitions), matching the seq_len ablation budget so
+# ICQ is directly comparable to those runs.
+#
+# Grid: 1 algorithm x 3 seeds = 3 runs.
+# =============================================================================
+
+name: moltenpot-setting2-clean_up-icq
+program: scripts/train_offline.py
+method: grid
+
+metric:
+  name: in_dist/return_mean
+  goal: maximize
+
+parameters:
+  seed:
+    values: [1, 2, 3]
+
+command:
+  - ${env}
+  - python
+  - ${program}
+  - +experiment=benchmark_clean_ALL
+  - algorithm=icq
+  - num_updates=25000
+  - ${args_no_hyphens}

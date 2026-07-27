@@ -60,7 +60,8 @@ _CONFIG_PATH = os.path.join(
 # Action-selection strategy each algorithm uses at evaluation (see the algos'
 # evaluate_multi_scenario calls). BC and IQL sample the actor (standard); BCQ
 # uses Q-masked greedy with tau; CQL uses greedy min(Q1,Q2).
-_ACT_TYPE = {"bc": "standard", "iql": "standard", "bcq": "bcq", "cql": "cql"}
+_ACT_TYPE = {"bc": "standard", "iql": "standard", "bcq": "bcq", "cql": "cql",
+             "icq": "standard"}   # ICQ selects actions from its learned actor
 
 
 def _algo_name(cfg: dict) -> str | None:

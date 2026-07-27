@@ -1,0 +1,26 @@
+# =============================================================================
+# algorithm/icq.yaml — Independent ICQ (MAICQ without the value-decomposition mixer)
+# =============================================================================
+# Usage: python scripts/train_offline.py algorithm=icq ...
+# Reference: Yang et al. (2021) "Believe What You See" (MAICQ); og-marl maicq.py.
+# The QMIX mixer is omitted so this runs as a fully independent per-agent algo,
+# appropriate for the mixed-motive setting.
+
+name: icq
+
+# Single learning rate for the whole model (one optimizer, as in og-marl)
+lr: 3e-4
+
+# RL discount
+gamma: 0.99
+
+# Hard target-network update period (in gradient steps)
+target_update_period: 200
+
+# ICQ importance-sampling temperature for the SARSA target value.
+# Large -> softmax over the batch is ~uniform -> ~standard SARSA target.
+icq_target_q_taken_beta: 1000.0
+
+# ICQ advantage-weighting temperature for the actor (advantage-weighted regression).
+# Small -> sharp weighting toward high-advantage in-dataset actions.
+icq_advantages_beta: 0.1
