@@ -1,0 +1,38 @@
+{
+  "run_id": "ci69vbzq",
+  "run_name": "icq_clean_up_ALL_s1",
+  "wandb_path": "moltenpot/moltenpot-offline-all/ci69vbzq",
+  "group": "clean_up_ALL",
+  "algorithm": "icq",
+  "substrate": "clean_up",
+  "train_mode": "ALL",
+  "seq_len": 128,
+  "batch_size": 32,
+  "seed": 1,
+  "use_scenario_id": false,
+  "num_scenarios": 0,
+  "eval": {
+    "num_episodes": 64,
+    "eval_seed": 42,
+    "max_steps": 1000,
+    "act_type": "standard",
+    "bcq_tau": null,
+    "use_scenario_id": false
+  },
+  "scenario_return_mean": {
+    "clean_up_0": 72.63541412353516,
+    "clean_up_2": 50.55729293823242,
+    "clean_up_3": 39.08854293823242,
+    "clean_up_4": 0.7291666865348816,
+    "clean_up_5": 1.7531249523162842,
+    "clean_up_7": 17.453125,
+    "clean_up_13": 29.64583396911621,
+    "clean_up_14": 0.3020833432674408,
+    "clean_up_15": 49.671875
+  },
+  "aggregates": {
+    "in_dist_mean": 29.092939883470535,
+    "out_dist_mean": null,
+    "all_mean": null
+  }
+}

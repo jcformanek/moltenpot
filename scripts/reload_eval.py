@@ -189,6 +189,8 @@ def main() -> None:
             logger.info("Reached --limit=%d evaluated runs; stopping.", args.limit)
             break
         cfg = run.config
+        if not cfg:  # bulk api.runs() can return an empty config dict; re-fetch per run
+            cfg = api.run(f"{run_path}/{run.id}").config
         algo = _algo_name(cfg)
         model_cfg = cfg.get("model") or {}
         seq_len = cfg.get("seq_len")
